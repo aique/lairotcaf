@@ -17,10 +17,4 @@ describe('AppComponent', () => {
       "Marcus' Amazing Bikes"
     );
   });
-
-  it(`should have as title 'Marcus' Amazing Bikes'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual("Marcus' Amazing Bikes");
-  });
 });

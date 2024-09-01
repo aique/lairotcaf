@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@factorial/bicycles-web-lib": ["libs/bicycles-web-lib/src/index.ts"],
+      "@factorial/bicycles-web/ui-layout": [
+        "libs/bicycles-web/ui-layout/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
