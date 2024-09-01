@@ -2,11 +2,13 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { FeatureConfiguratorRoutingModule } from "./feature-configurator-routing.module";
-import { FeatureConfiguratorComponent } from "./components/configurator.component";
+import { FeatureConfiguratorFormComponent } from "./components/configurator-form.component";
+import { FeatureConfiguratorContainer } from "./containers/configurator.container";
 
 @NgModule({
     declarations: [
-      FeatureConfiguratorComponent
+      FeatureConfiguratorContainer,
+      FeatureConfiguratorFormComponent
     ],
     imports: [
       CommonModule,
