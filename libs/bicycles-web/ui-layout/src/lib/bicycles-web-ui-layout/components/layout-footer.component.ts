@@ -12,9 +12,9 @@ import { CommonModule } from '@angular/common';
       </p>
     </footer> 
   `,
-  styleUrl: './bicycles-web-ui-footer.component.scss',
+  styleUrl: './layout-footer.component.scss',
 })
 
-export class BicyclesWebUiFooterComponent {
+export class LayoutFooterComponent {
   email = 'marcusbikes@mail.com'
 }

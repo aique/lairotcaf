@@ -10,9 +10,9 @@ import { CommonModule } from '@angular/common';
       <h1>{{ title }}</h1>
     </header>
   `,
-  styleUrl: './bicycles-web-ui-header.component.scss',
+  styleUrl: './layout-header.component.scss',
 })
 
-export class BicyclesWebUiHeaderComponent {
+export class LayoutHeaderComponent {
   title = "Marcus' Amazing Bikes"
 }

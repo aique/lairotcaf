@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BicyclesWebUiHeaderComponent } from "./bicycles-web-ui-header.component";
-import { BicyclesWebUiFooterComponent } from './bicycles-web-ui-footer.component';
+import { LayoutHeaderComponent } from "./layout-header.component";
+import { LayoutFooterComponent } from './layout-footer.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -10,8 +10,8 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-    BicyclesWebUiHeaderComponent,
-    BicyclesWebUiFooterComponent
+    LayoutHeaderComponent,
+    LayoutFooterComponent
   ],
   template: `
     <layout-header></layout-header>
@@ -20,7 +20,7 @@ import { RouterModule } from '@angular/router';
     </main>
     <layout-footer></layout-footer>
   `,
-  styleUrl: './bicycles-web-ui-layout.component.scss',
+  styleUrl: './layout.component.scss',
 })
 
-export class BicyclesWebUiLayoutComponent {}
+export class LayoutComponent {}

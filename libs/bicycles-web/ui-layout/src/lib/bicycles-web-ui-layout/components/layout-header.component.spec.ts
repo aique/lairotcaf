@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BicyclesWebUiHeaderComponent } from './bicycles-web-ui-header.component';
+import { LayoutHeaderComponent } from './layout-header.component';
 
-describe('BicyclesWebUiHeaderComponent', () => {
-  let component: BicyclesWebUiHeaderComponent;
-  let fixture: ComponentFixture<BicyclesWebUiHeaderComponent>;
+describe('LayoutHeaderComponent', () => {
+  let component: LayoutHeaderComponent;
+  let fixture: ComponentFixture<LayoutHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BicyclesWebUiHeaderComponent],
+      imports: [LayoutHeaderComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BicyclesWebUiHeaderComponent);
+    fixture = TestBed.createComponent(LayoutHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -20,7 +20,7 @@ describe('BicyclesWebUiHeaderComponent', () => {
   });
 
   it(`should have as title 'Marcus' Amazing Bikes'`, () => {
-    const fixture = TestBed.createComponent(BicyclesWebUiHeaderComponent);
+    const fixture = TestBed.createComponent(LayoutHeaderComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual("Marcus' Amazing Bikes");
   });
