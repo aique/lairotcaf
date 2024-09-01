@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'feature-store',
   template: `
     <ul>
-      <li>Bike Configurator</li>
+      <li><a routerLink="/configurator">Bike Configurator</a></li>
     </ul>
   `,
   styleUrl: './feature-store-welcome.component.scss',
