@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { ConfiguratorActions } from '../actions/configurator.actions';
 
 @Component({
   selector: 'feature-configurator-container',
@@ -10,7 +12,9 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class FeatureConfiguratorContainer implements OnInit {
+  constructor (private store: Store) {}
+
   ngOnInit(): void {
-      
+      this.store.dispatch(ConfiguratorActions.loadConfiguratorOptions(({ product: 'bike' })))
   }
 }
