@@ -1,3 +1,4 @@
+import { ConfiguratorOptions } from '@factorial/models';
 import { createAction, props } from '@ngrx/store';
 
 const loadConfiguratorOptions = createAction(
@@ -7,7 +8,7 @@ const loadConfiguratorOptions = createAction(
 
 const loadConfiguratorOptionsSuccess = createAction(
   '[Configurator] Load Configurator Options Success',
-  props<{ product: string }>()
+  props<{ options: ConfiguratorOptions }>()
 );
 
 export const ConfiguratorActions = {

@@ -6,6 +6,10 @@ import { FeatureConfiguratorFormComponent } from "./components/configurator-form
 import { FeatureConfiguratorContainer } from "./containers/configurator.container";
 import { EffectsModule } from "@ngrx/effects";
 import { ConfiguratorEffects } from "./effects/configurator.effects";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { ConfiguratorService } from "./services/configurator.service";
+import { StoreModule } from "@ngrx/store";
+import * as fromConfigurator from './reducers/configurator.reducer';
 
 @NgModule({
     declarations: [
@@ -16,8 +20,13 @@ import { ConfiguratorEffects } from "./effects/configurator.effects";
       CommonModule,
       RouterModule,
       EffectsModule.forFeature([ConfiguratorEffects]),
+      StoreModule.forFeature(fromConfigurator.configuratorFeatureKey, fromConfigurator.reducer),
       FeatureConfiguratorRoutingModule
     ],
+    providers: [
+      ConfiguratorService,
+      provideHttpClient(withInterceptorsFromDi())
+    ]
   })
   
   export class FeatureConfiguratorModule {}

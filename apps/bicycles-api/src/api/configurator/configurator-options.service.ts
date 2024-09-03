@@ -1,4 +1,4 @@
-import { ConfiguratorOptions } from "../model/configurator.model";
+import { ConfiguratorOptions } from "@factorial/models";
 
 export class ConfiguratorOptionsService {
     provide(product: string): ConfiguratorOptions {

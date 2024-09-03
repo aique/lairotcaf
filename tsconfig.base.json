@@ -15,9 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@factorial/bicycles-web-lib": [
-        "libs/bicycles-web-lib/src/index.ts"
-      ],
+      "@factorial/bicycles-web-lib": ["libs/bicycles-web-lib/src/index.ts"],
       "@factorial/bicycles-web/feature-configurator": [
         "libs/bicycles-web/feature-configurator/src/index.ts"
       ],
@@ -26,7 +24,8 @@
       ],
       "@factorial/bicycles-web/ui-layout": [
         "libs/bicycles-web/ui-layout/src/index.ts"
-      ]
+      ],
+      "@factorial/models": ["shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
