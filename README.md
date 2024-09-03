@@ -1,53 +1,67 @@
 # Factorial
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+## Technical challenge
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+You're tasked with building a website that allows Marcus, a bicycle shop owner, to sell his bicycles.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+Marcus owns a growing business and now wants to sell via the internet. He also tells you that bicycles are his main product, but if the business continues to grow, he will surely start selling other sports-related items such as skis, surfboards, roller skates, etc. It would be a nice bonus if the same website allowed him to sell those things as well.
+
+What makes Marcus's business successful is that customers can completely customize their bicycles. They can select many different options for the various parts of the bicycle. Here is an incomplete list of all the parts and their possible choices, to give an example:
+
+- Frame type: Full-suspension, diamond, step-through
+- Frame finish: Matte, shiny
+- Wheels: Road wheels, mountain wheels, fat bike wheels
+- Rim color: Red, black, blue
+- Chain: Single-speed chain, 8-speed chain
+
+On top of that, Marcus points out that there are some combinations that are prohibited because they are not possible in reality. For example:
+
+- If you select "mountain wheels", then the only frame available is the full suspension.
+- If you select "fat bike wheels", then the red rim color is unavailable because the manufacturer doesn't provide it.
+
+Also, sometimes Marcus doesn't have all the possible variations of each part in stock, so he also wants to be able to mark them as "temporarily out of stock" to avoid incoming orders that he would not be able to fulfill.
+
+Finally, Marcus tells you how to calculate the price that you should present to the customer after the customization of the bicycle. Normally, this price is calculated by adding up the individual prices of each part that you selected. For example:
+
+```
+Full suspension = 130 EUR
+Shiny frame = 30 EUR
+Road wheels = 80 EUR
+Rim color blue = 20 EUR
+Chain: Single-speed chain = 43 EUR
+
+Total price: 130 + 30 + 80 + 20 + 43 = 303 EUR
+```
+
+However, the price of some options might depend on others. For instance, the frame finish is applied at the end over the whole bicycle, so the more area to cover, the more expensive it gets. Because of that, the matte finish over a full-suspension frame costs 50 EUR, while applied over a diamond frame it costs 35 EUR.
+
+These kinds of variations can always happen and they might depend on any of the other choices (not only two), so Marcus asks you to consider this because otherwise, he would be losing money.
+
+This code exercise consists of defining a software architecture that could satisfy the requirements described above. In particular:
+
+- *Data model*: What data model would be best to support this application? Could you describe it? Include table specifications (or documents if it's a non-relational database) with fields, their associations, and the meaning of each entity.
+- The description of the main user actions in this e-commerce website. Explain how they would work in detail.
+- *The product page*: This would be a read operation, performed when you need to display the page of a product (a bicycle) for the customer to purchase. How would you present this UI? How would you calculate which options are available or not? How would you calculate the price depending on the customer's selections?
+- The "add to cart" action: Following the previous point, the product page should have a button to "add to cart" after the customer has made some specific selection. What happens when the customer clicks this button? What is persisted in the database?
+- The description of the main workflows from the administration part of the website, where Marcus configures the store.
+- The creation of a new product: What information is required to create a new product? What changes in the database after performing this action?
+- The addition of a new part choice: How can Marcus introduce a new rim color, for example? Can you describe the UI? What changes in the database after this action?
+- Setting up prices: How can Marcus change the price of a specific part (like the diamond frame type) or specify that some combinations of choices have particular prices? How does the UI look? How does the database change to store this information?
+
+We expect you to provide the main core model of the solution: a set of classes/functions/modules in the language of your choice that can describe the main relationships between entities and any supporting materials you find useful (database schemas, diagrams, etc). Please make it as lightweight as possible: no need to use web frameworks or provide the finished solution, the goal is to see how you model and code the domain logic.
+
+For any other specification of the system that's not directly stated in the exercise, feel free to interpret it as you see best.
 
 ## Run tasks
 
-To run the dev server for your app, use:
+To run the web server for your api, use:
 
 ```sh
 npx nx serve bicycles-api
 ```
 
-To create a production bundle:
+To run the web server for your web, use:
 
 ```sh
-npx nx build bicycles-api
+npx nx build bicycles-web
 ```
-
-To see all available targets to run for a project, run:
-
-```sh
-npx nx show project bicycles-api
-```
-        
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/node:app demo
-```
-
-To generate a new library, use:
-
-```sh
-npx nx g @nx/node:lib mylib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)

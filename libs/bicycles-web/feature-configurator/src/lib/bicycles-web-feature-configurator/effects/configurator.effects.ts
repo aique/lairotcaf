@@ -7,10 +7,13 @@ import { ConfiguratorActions } from '../actions/configurator.actions';
 export class ConfiguratorEffects {
     loadConfiguratorOptions$
 
-    constructor(private actions$: Actions) {
+    constructor(
+        private actions$: Actions
+    ) {
         this.loadConfiguratorOptions$ = createEffect(() => 
             this.actions$.pipe(
                 ofType(ConfiguratorActions.loadConfiguratorOptions),
+
                 tap(() => console.log('downloading configurator options...'))
             ),
             { dispatch: false }
