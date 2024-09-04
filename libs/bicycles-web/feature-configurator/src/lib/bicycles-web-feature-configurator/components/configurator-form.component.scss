@@ -1,4 +1,21 @@
 :host {
+    .out-of-stock-message {
+        margin-right: 5px;
+        font-size: 0.8rem;
+    }
+
+    .tag {
+        padding: 0.1rem 0.2rem;
+        margin-right: 5px;
+
+        color: grey;
+        font-size: 0.8rem;
+        font-weight: bold;
+        background-color: #eee;
+        border: 1px solid grey;
+        border-radius: 3px;
+    }
+
     .form-columns {
         display: flex;
         justify-content: space-between;

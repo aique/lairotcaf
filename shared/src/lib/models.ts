@@ -1,7 +1,8 @@
 export interface ConfiguratorComponentOptions {
   id: number,
   name: string,
-  price: number
+  price: number,
+  stock: number | null
 }
 
 export interface ConfiguratorComponent {

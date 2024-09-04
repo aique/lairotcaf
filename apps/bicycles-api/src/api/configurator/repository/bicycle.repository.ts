@@ -23,7 +23,7 @@ export class BicycleRepository implements ProductRepository {
         const db = await this.db.openConnection()
 
         return await db.all(`
-            SELECT id, name, price FROM component_option WHERE component_id = ${componentId}
+            SELECT id, name, price, stock FROM component_option WHERE component_id = ${componentId}
         `)
     }
 }
