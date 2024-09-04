@@ -6,21 +6,21 @@ import configureRouter from "./config/routing";
 /**
  * Loading vars
  */
-dotenv.config();
+dotenv.config()
 
 if (!process.env.PORT) {
-    process.exit(1);
+    process.exit(1)
 }
 
-const PORT: number = parseInt(process.env.PORT as string, 10);
+const PORT: number = parseInt(process.env.PORT as string, 10)
 
 /**
- * Configuring routes
+ * Configuring app
  */
-const app = express();
+const app = express()
 
-app.use(express.json());
-app.use(cors());
+app.use(express.json())
+app.use(cors())
 
 configureRouter(app)
 
@@ -29,4 +29,4 @@ configureRouter(app)
  */
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
-});
+})

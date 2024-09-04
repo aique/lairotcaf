@@ -1,27 +1,16 @@
 import { ConfiguratorOptions } from "@factorial/models";
+import { ProductConfiguratorProvider } from "./providers/product-configurator.provider";
 
 export class ConfiguratorOptionsService {
-    provide(product: string): ConfiguratorOptions {
-        return {
-            components: [{
-                name: 'Frame type',
-                options: [{
-                        name: 'Full-suspension',
-                        price: 130
-                    }, {
-                        name: 'Diamond',
-                        price: 150,
-                    }],
-                }, {
-                name: 'Wheels',
-                options: [{
-                        name: 'Road wheels',
-                        price: 80
-                    }, {
-                        name: 'Mountain wheels',
-                        price: 95,
-                }],
-            }]
+    constructor(private productConfigurationProvider: ProductConfiguratorProvider) {}
+
+    async provide(product: string): Promise<ConfiguratorOptions> {
+        const provider = this.productConfigurationProvider.getProvider(product)
+
+        if (provider) {
+            return provider.getOptions()
         }
+
+        return null
     }
 }

@@ -17,6 +17,6 @@ export class FeatureConfiguratorContainer implements OnInit {
   constructor (private store: Store) {}
 
   ngOnInit(): void {
-      this.store.dispatch(ConfiguratorActions.loadConfiguratorOptions(({ product: 'bike' })))
+      this.store.dispatch(ConfiguratorActions.loadConfiguratorOptions(({ product: 'bicycle' })))
   }
 }

@@ -1,9 +1,11 @@
-interface ConfiguratorComponentOptions {
+export interface ConfiguratorComponentOptions {
+  id: number,
   name: string,
   price: number
 }
 
-interface ConfiguratorComponent {
+export interface ConfiguratorComponent {
+  id: number,
   name: string,
   options: ConfiguratorComponentOptions[] 
 }

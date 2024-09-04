@@ -10,8 +10,12 @@ export class ConfiguratorService {
     constructor(private http: HttpClient) {}
 
     getConfiguratorOptions(product: string): Observable<ConfiguratorOptions> {
-        return this.http.get<ConfiguratorOptions>(this.URL).pipe(
+        return this.http.get<ConfiguratorOptions>(this.getURL(product)).pipe(
             catchError((error: unknown) => EMPTY)
         );
+    }
+
+    private getURL(product: string): string {
+        return `${this.URL}?product=${product}`
     }
 }
