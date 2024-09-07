@@ -40,10 +40,10 @@ import { ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorCom
             <div class="submit-controls">
               <input
                 class="submit-buttom"
-                [ngClass]="{ 'disabled': error || !selectedOptions.getPrice() }"
+                [ngClass]="{ 'disabled': this.disableSubmit() }"
                 type="submit"
                 value="I want it!"
-                [disabled]="error || !selectedOptions.getPrice()"
+                [disabled]="this.disableSubmit()"
               />
               <span class="price" *ngIf="selectedOptions.getPrice() as price">
                 <span class="price-value">{{ price }}</span> €
@@ -68,6 +68,12 @@ export class FeatureConfiguratorFormComponent {
 
   hasComponents(): boolean {
     return this.componentCollection.length() > 0
+  }
+
+  disableSubmit(): boolean {
+    return this.error !== '' ||
+      !this.selectedOptions.getPrice() ||
+      this.selectedOptions.getSelectedOptionIds().length !== this.componentCollection.length()
   }
 
   outOfStockOptions(options: ConfiguratorComponentOption[]): ConfiguratorComponentOption[] {

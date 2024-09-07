@@ -114,7 +114,7 @@ export class ConfiguratorSelection {
       }
 
       if (selectedOption.priceCombinations.length > 0) {
-        price = this.getPriceFromProductCombinations(selectedOption.priceCombinations)
+        price += this.getPriceFromProductCombinations(selectedOption.priceCombinations)
       }
     }
 
