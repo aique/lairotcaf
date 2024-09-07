@@ -53,14 +53,14 @@ export class DatabaseRepository implements ProductRepository {
         const db = await this.db.openConnection()
 
         const priceCombinations = await db.all(`
-            SELECT option_2, price
+            SELECT combinations, price
             FROM option_combination
-            WHERE option_1 = ${optionId}
+            WHERE option = ${optionId}
         `)
 
         return priceCombinations.map((priceCombination) => {
             return {
-                option: priceCombination.option_2,
+                options: JSON.parse(priceCombination.combinations),
                 price: priceCombination.price
             }
         })

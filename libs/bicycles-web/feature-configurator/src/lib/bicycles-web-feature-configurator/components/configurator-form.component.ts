@@ -45,7 +45,7 @@ import { ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorCom
                 value="I want it!"
                 [disabled]="this.disableSubmit()"
               />
-              <span class="price" *ngIf="selectedOptions.getPrice() as price">
+              <span class="price" *ngIf="price">
                 <span class="price-value">{{ price }}</span> €
               </span>
             </div>
@@ -64,6 +64,8 @@ export class FeatureConfiguratorFormComponent {
   @Input() componentCollection: ConfiguratorComponentCollection = new ConfiguratorComponentCollection([])
 
   selectedOptions = new ConfiguratorSelection()
+  selectedOptionIds: number[] = []
+  price = 0
   error = ''
 
   hasComponents(): boolean {
@@ -72,8 +74,8 @@ export class FeatureConfiguratorFormComponent {
 
   disableSubmit(): boolean {
     return this.error !== '' ||
-      !this.selectedOptions.getPrice() ||
-      this.selectedOptions.getSelectedOptionIds().length !== this.componentCollection.length()
+      !this.price ||
+      this.selectedOptionIds.length !== this.componentCollection.length()
   }
 
   outOfStockOptions(options: ConfiguratorComponentOption[]): ConfiguratorComponentOption[] {
@@ -96,5 +98,7 @@ export class FeatureConfiguratorFormComponent {
     }
 
     this.error = this.selectedOptions.getIncompatibleOptionsError()
+    this.price = this.selectedOptions.getPrice()
+    this.selectedOptionIds = this.selectedOptions.getSelectedOptionIds()
   }
 }

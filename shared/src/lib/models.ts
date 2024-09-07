@@ -1,5 +1,5 @@
 export interface ConfiguratorOptionPriceCombination {
-  option: number,
+  options: number[],
   price: number
 }
 
@@ -125,11 +125,26 @@ export class ConfiguratorSelection {
     const selectedOptionIds = this.getSelectedOptionIds()
 
     for (let priceCombination of priceCombinations) {
-      if (selectedOptionIds.includes(priceCombination.option)) {
-        return priceCombination.price
+      const price = this.getProductCombinationPrice(selectedOptionIds, priceCombination)
+
+      if (price > 0) {
+        return price
       }
     }
 
     return 0
+  }
+
+  private getProductCombinationPrice(
+    selectedOptionIds: number[],
+    priceCombination: ConfiguratorOptionPriceCombination
+  ): number {
+    for (let option of priceCombination.options) {
+      if (!selectedOptionIds.includes(option)) {
+        return 0
+      }
+    }
+
+    return priceCombination.price
   }
 }
