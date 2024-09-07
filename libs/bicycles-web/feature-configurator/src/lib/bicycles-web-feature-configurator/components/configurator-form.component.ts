@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ConfiguratorComponentCollection, ConfiguratorComponentOption } from '@factorial/models';
+import { ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorComponentOption, ConfiguratorSelection } from '@factorial/models';
 
 @Component({
   selector: 'feature-configurator-form',
@@ -17,7 +17,8 @@ import { ConfiguratorComponentCollection, ConfiguratorComponentOption } from '@f
               <div class="form-group">
                 <!-- component options selector -->
                 <label>{{ component.name }}</label>
-                <select (change)="onConfiguratorOptionChange($event)">
+                <select (change)="onConfiguratorOptionChange(component, $event)">
+                  <option value="" selected>Please select one option</option>
                   <option [value]="option.id" *ngFor="let option of this.filterOutOfStockOptions(component.options)">
                     {{ option.name }}
                   </option>
@@ -36,10 +37,21 @@ import { ConfiguratorComponentCollection, ConfiguratorComponentOption } from '@f
           </div>
           <!-- buy area -->
           <div class="submit-area">
-            <input class="submit-buttom" type="submit" value="I want it!" />
-            <span class="price">
-              <span class="price-value">66,38</span> €
-            </span>
+            <div class="submit-controls">
+              <input
+                class="submit-buttom"
+                [ngClass]="{ 'disabled': error || !selectedOptions.getPrice() }"
+                type="submit"
+                value="I want it!"
+                [disabled]="error || !selectedOptions.getPrice()"
+              />
+              <span class="price" *ngIf="selectedOptions.getPrice() as price">
+                <span class="price-value">{{ price }}</span> €
+              </span>
+            </div>
+            <p class="error" *ngIf="error">
+              {{ error }}
+            </p>
           </div>
         </div>
       </form>
@@ -51,7 +63,8 @@ import { ConfiguratorComponentCollection, ConfiguratorComponentOption } from '@f
 export class FeatureConfiguratorFormComponent {
   @Input() componentCollection: ConfiguratorComponentCollection = new ConfiguratorComponentCollection([])
 
-  selectedOptions: ConfiguratorComponentOption[] = []
+  selectedOptions = new ConfiguratorSelection()
+  error = ''
 
   hasComponents(): boolean {
     return this.componentCollection.length() > 0
@@ -65,18 +78,17 @@ export class FeatureConfiguratorFormComponent {
     return options.filter((option) => option.stock === null || option.stock > 0)
   }
 
-  onConfiguratorOptionChange(event: Event): void {
+  onConfiguratorOptionChange(component: ConfiguratorComponent, event: Event): void {
     const selectedComponent = event.target as HTMLSelectElement
     const selectedOptionId = Number(selectedComponent.value)
     const selectedOption = this.componentCollection.getOptionFromId(selectedOptionId);
 
-    if (selectedOption) {
-      this.checkIncompatibleOptions(selectedOption)
+    if (!selectedOption) {
+      this.selectedOptions.delete(component.name)
+    } else {
+      this.selectedOptions.set(component.name, selectedOption)
     }
-  }
 
-  checkIncompatibleOptions(option: ConfiguratorComponentOption): boolean {
-    console.log(option)
-    return false
+    this.error = this.selectedOptions.getIncompatibleOptionsError()
   }
 }

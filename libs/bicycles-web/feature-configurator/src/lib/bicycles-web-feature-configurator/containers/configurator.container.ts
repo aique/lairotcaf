@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ConfiguratorActions } from '../actions/configurator.actions';
 import { configuratorSelector } from '../selectors/configurator.selector';
-import { ConfiguratorComponentCollection, ConfiguratorOptions } from '@factorial/models';
+import { ConfiguratorComponent, ConfiguratorComponentCollection } from '@factorial/models';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -37,8 +37,8 @@ export class FeatureConfiguratorContainer implements OnInit {
     this.product = this.getProductFromQueryParam();
 
     this.store.select(configuratorSelector.selectConfiguratorComponents)
-      .subscribe((components: ConfiguratorComponentCollection) => {
-        this.componentCollection = components
+      .subscribe((components: ConfiguratorComponent[]) => {
+        this.componentCollection = new ConfiguratorComponentCollection(components)
       })
 
     this.store.select(configuratorSelector.selectLoadingState)

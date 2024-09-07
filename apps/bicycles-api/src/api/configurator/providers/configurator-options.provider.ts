@@ -1,5 +1,5 @@
-import { ConfiguratorOptionsEndpointResponse } from "@factorial/models";
+import { ConfiguratorOptions } from "@factorial/models";
 
 export interface ConfiguratorOptionsProvider {
-    getOptions(): Promise<ConfiguratorOptionsEndpointResponse>
+    getOptions(): Promise<ConfiguratorOptions>
 }

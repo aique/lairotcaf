@@ -1,11 +1,11 @@
-import { ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorComponentOption, ConfiguratorOptions, ConfiguratorOptionsEndpointResponse } from "@factorial/models";
+import { ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorComponentOption, ConfiguratorOptions } from "@factorial/models";
 import { DatabaseConnector } from "../../storage/database";
 import { ProductRepository } from "./product.repository";
 
 export class BicycleRepository implements ProductRepository {
     constructor(private db: DatabaseConnector) {}
 
-    async getConfiguratorOptions(): Promise<ConfiguratorOptionsEndpointResponse> {
+    async getConfiguratorOptions(): Promise<ConfiguratorOptions> {
         const db = await this.db.openConnection()
 
         const components: ConfiguratorComponent[] = await db.all(`
@@ -15,7 +15,6 @@ export class BicycleRepository implements ProductRepository {
 
         for (let component of components) {
             component.options = await this.getComponentOptions(component.id)
-            console.log(component.options)
         }
 
         return { components: components }
