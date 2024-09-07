@@ -1,18 +1,16 @@
-import { ConfiguratorOptions } from "@factorial/models";
+import { ConfiguratorComponentCollection, ConfiguratorOptions } from "@factorial/models";
 import { createReducer, on } from "@ngrx/store";
 import { ConfiguratorActions } from "../actions/configurator.actions";
 
 export const configuratorFeatureKey = 'configurator';
 
 export interface State {
-    options: ConfiguratorOptions
+    components: ConfiguratorComponentCollection
     loading: boolean
 }
 
 export const initialState: State = {
-    options: {
-        components: [],
-    },
+    components: new ConfiguratorComponentCollection([]),
     loading: true
 }
 
@@ -20,9 +18,9 @@ export const reducer = createReducer(
     initialState,
     on(
         ConfiguratorActions.loadConfiguratorOptionsSuccess,
-        (state, { options }): State => ({
+        (state, response): State => ({
             ...state,
-            options: options,
+            components: new ConfiguratorComponentCollection(response.components),
             loading: false
         })
     )

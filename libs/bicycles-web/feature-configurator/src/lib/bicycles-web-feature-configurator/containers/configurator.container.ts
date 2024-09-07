@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ConfiguratorActions } from '../actions/configurator.actions';
 import { configuratorSelector } from '../selectors/configurator.selector';
-import { ConfiguratorComponent, ConfiguratorOptions } from '@factorial/models';
+import { ConfiguratorComponentCollection, ConfiguratorOptions } from '@factorial/models';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ import { ActivatedRoute } from '@angular/router';
       <!-- configurator form -->
       <feature-configurator-form
         *ngIf="!loading"
-        [components]="components"
+        [componentCollection]="componentCollection"
       >
       </feature-configurator-form>
     </div>
@@ -28,19 +28,17 @@ import { ActivatedRoute } from '@angular/router';
 export class FeatureConfiguratorContainer implements OnInit {
   product: string = '';
   loading: boolean = true;
-  components: ConfiguratorComponent[] = []
+  componentCollection: ConfiguratorComponentCollection = new ConfiguratorComponentCollection([])
 
   constructor (
     private store: Store,
     private route: ActivatedRoute
   ) {
-    this.product = this.route.snapshot.queryParamMap.get('product') || '';
+    this.product = this.getProductFromQueryParam();
 
-    this.store.select(configuratorSelector.selectConfiguratorOptions)
-      .subscribe((options: ConfiguratorOptions) => {
-        if (options) {
-          this.components = options.components
-        }
+    this.store.select(configuratorSelector.selectConfiguratorComponents)
+      .subscribe((components: ConfiguratorComponentCollection) => {
+        this.componentCollection = components
       })
 
     this.store.select(configuratorSelector.selectLoadingState)
@@ -51,5 +49,9 @@ export class FeatureConfiguratorContainer implements OnInit {
 
   ngOnInit(): void {
       this.store.dispatch(ConfiguratorActions.loadConfiguratorOptions(({ product: this.product })))
+  }
+
+  getProductFromQueryParam(): string {
+    return this.route.snapshot.queryParamMap.get('product') || ''
   }
 }

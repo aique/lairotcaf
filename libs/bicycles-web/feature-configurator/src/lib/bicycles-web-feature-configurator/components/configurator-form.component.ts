@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ConfiguratorComponent, ConfiguratorComponentOptions, ConfiguratorOptions } from '@factorial/models';
+import { ConfiguratorComponentCollection, ConfiguratorComponentOption } from '@factorial/models';
 
 @Component({
   selector: 'feature-configurator-form',
@@ -13,12 +13,12 @@ import { ConfiguratorComponent, ConfiguratorComponentOptions, ConfiguratorOption
       <form>
         <div class="form-columns">
           <div class="form-groups">
-            <div *ngFor="let component of components">
+            <div *ngFor="let component of componentCollection.getComponents()">
               <div class="form-group">
                 <!-- component options selector -->
                 <label>{{ component.name }}</label>
-                <select>
-                  <option *ngFor="let option of this.filterOutOfStockOptions(component.options)">
+                <select (change)="onConfiguratorOptionChange($event)">
+                  <option [value]="option.id" *ngFor="let option of this.filterOutOfStockOptions(component.options)">
                     {{ option.name }}
                   </option>
                 </select>
@@ -49,17 +49,34 @@ import { ConfiguratorComponent, ConfiguratorComponentOptions, ConfiguratorOption
 })
 
 export class FeatureConfiguratorFormComponent {
-  @Input() components: ConfiguratorComponent[] = []
+  @Input() componentCollection: ConfiguratorComponentCollection = new ConfiguratorComponentCollection([])
+
+  selectedOptions: ConfiguratorComponentOption[] = []
 
   hasComponents(): boolean {
-    return this.components.length > 0
+    return this.componentCollection.length() > 0
   }
 
-  outOfStockOptions(options: ConfiguratorComponentOptions[]): ConfiguratorComponentOptions[] {
+  outOfStockOptions(options: ConfiguratorComponentOption[]): ConfiguratorComponentOption[] {
     return options.filter((option) => option.stock !== null && option.stock === 0)
   }
 
-  filterOutOfStockOptions(options: ConfiguratorComponentOptions[]): ConfiguratorComponentOptions[] {
+  filterOutOfStockOptions(options: ConfiguratorComponentOption[]): ConfiguratorComponentOption[] {
     return options.filter((option) => option.stock === null || option.stock > 0)
+  }
+
+  onConfiguratorOptionChange(event: Event): void {
+    const selectedComponent = event.target as HTMLSelectElement
+    const selectedOptionId = Number(selectedComponent.value)
+    const selectedOption = this.componentCollection.getOptionFromId(selectedOptionId);
+
+    if (selectedOption) {
+      this.checkIncompatibleOptions(selectedOption)
+    }
+  }
+
+  checkIncompatibleOptions(option: ConfiguratorComponentOption): boolean {
+    console.log(option)
+    return false
   }
 }

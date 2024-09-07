@@ -5,9 +5,9 @@ export const selectConfiguratorState = createFeatureSelector<fromConfigurator.St
     fromConfigurator.configuratorFeatureKey
 );
 
-export const selectConfiguratorOptions = createSelector(
+export const selectConfiguratorComponents = createSelector(
     selectConfiguratorState,
-    (state) => state.options
+    (state) => state.components
 );
 
 export const selectLoadingState = createSelector(
@@ -16,6 +16,6 @@ export const selectLoadingState = createSelector(
 );
 
 export const configuratorSelector = {
-    selectConfiguratorOptions,
+    selectConfiguratorComponents,
     selectLoadingState,
 }
