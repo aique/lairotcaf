@@ -65,6 +65,16 @@ export class ConfiguratorSelection {
     this.selectedOptions.delete(key)
   }
 
+  getSelectedOptionIds(): number[] {
+    const selectedOptionIds: number[] = []
+
+    for (let selectedOption of this.selectedOptions.values()) {
+      selectedOptionIds.push(selectedOption.id)
+    }
+
+    return selectedOptionIds
+  }
+
   getIncompatibleOptionsError(): string {
     for (let selectedOption of this.selectedOptions.values()) {
       const error = this.getIncompatibleOptions(selectedOption)
@@ -102,8 +112,24 @@ export class ConfiguratorSelection {
       if (selectedOption.price) {
         price += selectedOption.price
       }
+
+      if (selectedOption.priceCombinations.length > 0) {
+        price = this.getPriceFromProductCombinations(selectedOption.priceCombinations)
+      }
     }
 
     return price
+  }
+
+  private getPriceFromProductCombinations(priceCombinations: ConfiguratorOptionPriceCombination[]): number {
+    const selectedOptionIds = this.getSelectedOptionIds()
+
+    for (let priceCombination of priceCombinations) {
+      if (selectedOptionIds.includes(priceCombination.option)) {
+        return priceCombination.price
+      }
+    }
+
+    return 0
   }
 }
