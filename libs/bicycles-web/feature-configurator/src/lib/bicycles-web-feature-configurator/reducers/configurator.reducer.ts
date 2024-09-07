@@ -6,12 +6,14 @@ export const configuratorFeatureKey = 'configurator';
 
 export interface State {
     options: ConfiguratorOptions
+    loading: boolean
 }
 
 export const initialState: State = {
     options: {
-        components: []
-    }
+        components: [],
+    },
+    loading: true
 }
 
 export const reducer = createReducer(
@@ -20,7 +22,8 @@ export const reducer = createReducer(
         ConfiguratorActions.loadConfiguratorOptionsSuccess,
         (state, { options }): State => ({
             ...state,
-            options: options
+            options: options,
+            loading: false
         })
     )
 )

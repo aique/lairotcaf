@@ -1,15 +1,21 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as fromConfigurator from '../reducers/configurator.reducer';
 
-export const selectContractState = createFeatureSelector<fromConfigurator.State>(
+export const selectConfiguratorState = createFeatureSelector<fromConfigurator.State>(
     fromConfigurator.configuratorFeatureKey
 );
 
 export const selectConfiguratorOptions = createSelector(
-    selectContractState,
+    selectConfiguratorState,
     (state) => state.options
 );
 
-export const contractSelector = {
-    selectConfiguratorOptions
+export const selectLoadingState = createSelector(
+    selectConfiguratorState,
+    (state) => state.loading
+);
+
+export const configuratorSelector = {
+    selectConfiguratorOptions,
+    selectLoadingState,
 }

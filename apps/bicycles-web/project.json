@@ -22,7 +22,7 @@
             "input": "apps/bicycles-web/public"
           }
         ],
-        "styles": ["apps/bicycles-web/src/styles.scss"],
+        "styles": ["apps/bicycles-web/src/styles/styles.scss"],
         "scripts": []
       },
       "configurations": {

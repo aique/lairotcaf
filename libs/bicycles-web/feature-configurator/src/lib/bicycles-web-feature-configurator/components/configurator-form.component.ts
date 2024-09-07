@@ -1,19 +1,19 @@
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { contractSelector } from '../selectors/configurator.selector';
-import { ConfiguratorComponentOptions } from '@factorial/models';
+import { Component, Input } from '@angular/core';
+import { ConfiguratorComponent, ConfiguratorComponentOptions, ConfiguratorOptions } from '@factorial/models';
 
 @Component({
   selector: 'feature-configurator-form',
   template: `
-    <p *ngIf="!(options$ | async)">
+    <!-- no components message -->
+    <p *ngIf="!hasComponents()">
       We can't find any information about this product 🙏
     </p>
-    <div *ngIf="options$ | async as options">
+    <!-- configurator -->
+    <div *ngIf="hasComponents()">
       <form>
         <div class="form-columns">
           <div class="form-groups">
-            <div *ngFor="let component of options.components">
+            <div *ngFor="let component of components">
               <div class="form-group">
                 <!-- component options selector -->
                 <label>{{ component.name }}</label>
@@ -49,10 +49,10 @@ import { ConfiguratorComponentOptions } from '@factorial/models';
 })
 
 export class FeatureConfiguratorFormComponent {
-  options$
+  @Input() components: ConfiguratorComponent[] = []
 
-  constructor (private store: Store) {
-    this.options$ = this.store.select(contractSelector.selectConfiguratorOptions)
+  hasComponents(): boolean {
+    return this.components.length > 0
   }
 
   outOfStockOptions(options: ConfiguratorComponentOptions[]): ConfiguratorComponentOptions[] {

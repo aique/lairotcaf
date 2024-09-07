@@ -1,0 +1,22 @@
+@import 'variables';
+
+body {
+    margin: 0;
+
+    font-family: 'Roboto', sans-serif;
+
+    h3 {
+        color: gray;
+    }
+
+    layout {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    main {
+        flex: 1;
+        padding: 20px;
+    }
+}

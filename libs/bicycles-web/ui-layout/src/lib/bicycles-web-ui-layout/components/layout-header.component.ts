@@ -7,7 +7,9 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <header>
-      <h1>{{ title }}</h1>
+      <h1>
+        <a href="/" alt="home page link" title="go to the home page link">{{ title }}</a>
+      </h1>
     </header>
   `,
   styleUrl: './layout-header.component.scss',

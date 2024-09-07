@@ -4,7 +4,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'feature-store',
   template: `
     <ul>
-      <li><a routerLink="/configurator">Bike Configurator</a></li>
+      <li>
+        <a routerLink="/configurator" [queryParams]="{product: 'bicycle'}">
+          Bike Configurator
+        </a>
+      </li>
     </ul>
   `,
   styleUrl: './feature-store-welcome.component.scss',
