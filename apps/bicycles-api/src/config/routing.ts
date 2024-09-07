@@ -1,27 +1,23 @@
 import { Express } from "express";
 import { ConfiguratorController } from "../api/controllers/configurator.controller";
 import { ConfiguratorOptionsService } from "../api/configurator/configurator-options.service";
-import { ProductConfiguratorProvider } from "../api/configurator/providers/product-configurator.provider";
-import { BicycleConfiguratorOptionsProvider } from "../api/configurator/providers/bicycle-configurator-options.provider";
-import { BicycleRepository } from "../api/configurator/repository/bicycle.repository";
+import { DatabaseRepository } from "../api/configurator/repository/database.repository";
 import { DatabaseConnector } from "../api/storage/database";
+import { ConfiguratorOptionsProvider } from "../api/configurator/providers/configurator-options.provider";
 
 export default function configureRouter(app: Express) {
-    const bicycleProvider = new BicycleConfiguratorOptionsProvider(
-      new BicycleRepository(
+    const optionsProvider = new ConfiguratorOptionsProvider(
+      new DatabaseRepository(
         new DatabaseConnector()
       )
     )
 
     const configuratorController = new ConfiguratorController(
       new ConfiguratorOptionsService(
-        new ProductConfiguratorProvider([{
-          product: 'bicycle',
-          provider: bicycleProvider
-        }])
+        optionsProvider
       )
-    );
+    )
 
     app.route('/configurator/options')
-      .get(configuratorController.actionGetConfiguratorOptions.bind(configuratorController));
+      .get(configuratorController.actionGetConfiguratorOptions.bind(configuratorController))
 }

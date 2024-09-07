@@ -1,16 +1,16 @@
 import { ConfiguratorOptions } from "@factorial/models";
-import { ProductConfiguratorProvider } from "./providers/product-configurator.provider";
+import { ConfiguratorOptionsProvider } from "./providers/configurator-options.provider";
 
 export class ConfiguratorOptionsService {
-    constructor(private productConfigurationProvider: ProductConfiguratorProvider) {}
+    constructor(private provider: ConfiguratorOptionsProvider) {}
 
     async provide(product: string): Promise<ConfiguratorOptions> {
-        const provider = this.productConfigurationProvider.getProvider(product)
-
-        if (provider) {
-            return provider.getOptions()
+        if (this.provider) {
+            return this.provider.getOptions(product)
         }
 
-        return null
+        return {
+            components: []
+        }
     }
 }

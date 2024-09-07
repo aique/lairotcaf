@@ -1,9 +1,15 @@
+export interface ConfiguratorOptionPriceCombination {
+  option: number,
+  price: number
+}
+
 export interface ConfiguratorComponentOption {
   id: number,
   name: string,
-  price: number,
+  price: number | null,
   stock: number | null
   incompatibleOptions: number[]
+  priceCombinations: ConfiguratorOptionPriceCombination[]
 }
 
 export interface ConfiguratorComponent {
@@ -93,7 +99,9 @@ export class ConfiguratorSelection {
     let price = 0
 
     for (let selectedOption of this.selectedOptions.values()) {
-      price += selectedOption.price
+      if (selectedOption.price) {
+        price += selectedOption.price
+      }
     }
 
     return price
