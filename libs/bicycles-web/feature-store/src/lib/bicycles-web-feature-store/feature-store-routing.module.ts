@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { FeatureStoreWelcomeComponent } from "./components/feature-store-welcome.component";
+import { FeatureStoreWelcomeContainer } from "./containers/feature-store-welcome.container";
 
 const routes: Routes = [{
     path: '',
-    component: FeatureStoreWelcomeComponent
+    component: FeatureStoreWelcomeContainer
 }, {
     path: 'configurator',
     loadChildren: () => import('@factorial/bicycles-web/feature-configurator').then(({ FeatureConfiguratorModule }) => FeatureConfiguratorModule)

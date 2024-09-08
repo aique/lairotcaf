@@ -1,4 +1,4 @@
-import { ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorOptions } from "@factorial/models";
+import { ConfiguratorComponent } from "@factorial/models";
 import { createReducer, on } from "@ngrx/store";
 import { ConfiguratorActions } from "../actions/configurator.actions";
 

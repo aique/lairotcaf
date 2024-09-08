@@ -11,11 +11,13 @@ import { ConfiguratorService } from "./services/configurator.service";
 import { StoreModule } from "@ngrx/store";
 import * as fromConfigurator from './reducers/configurator.reducer';
 import { LoadingSpinnerComponent } from '@factorial/bicycles-web/ui-layout';
+import { FeatureConfiguratorResumeComponent } from "./components/configurator-resume.component";
 
 @NgModule({
     declarations: [
       FeatureConfiguratorContainer,
-      FeatureConfiguratorFormComponent
+      FeatureConfiguratorFormComponent,
+      FeatureConfiguratorResumeComponent,
     ],
     imports: [
       CommonModule,

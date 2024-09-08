@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorComponentOption, ConfiguratorSelection } from '@factorial/models';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ComponentOptionsResumeItem, ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorComponentOption, ConfiguratorSelection } from '@factorial/models';
 
 @Component({
   selector: 'feature-configurator-form',
@@ -39,7 +39,7 @@ import { ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorCom
           <div class="submit-area">
             <div class="submit-controls">
               <input
-                class="submit-buttom"
+                class="button"
                 [ngClass]="{ 'disabled': this.disableSubmit() }"
                 type="submit"
                 value="I want it!"
@@ -52,12 +52,17 @@ import { ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorCom
             <p class="error" *ngIf="error">
               {{ error }}
             </p>
+            <feature-configurator-resume
+              [components]="resume"
+              *ngIf="resume.length > 0"
+            ></feature-configurator-resume>
           </div>
         </div>
       </form>
     </div>
   `,
   styleUrl: './configurator-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class FeatureConfiguratorFormComponent {
@@ -65,8 +70,10 @@ export class FeatureConfiguratorFormComponent {
 
   selectedOptions = new ConfiguratorSelection()
   selectedOptionIds: number[] = []
-  price = 0
+
   error = ''
+  price = 0
+  resume: ComponentOptionsResumeItem[] = []
 
   hasComponents(): boolean {
     return this.componentCollection.length() > 0
@@ -97,8 +104,10 @@ export class FeatureConfiguratorFormComponent {
       this.selectedOptions.set(component.name, selectedOption)
     }
 
+    this.selectedOptionIds = this.selectedOptions.getSelectedOptionIds()
+
     this.error = this.selectedOptions.getIncompatibleOptionsError()
     this.price = this.selectedOptions.getPrice()
-    this.selectedOptionIds = this.selectedOptions.getSelectedOptionIds()
+    this.resume = this.selectedOptions.getResume()
   }
 }

@@ -1,0 +1,28 @@
+:host {
+    padding: 1rem;
+
+    background-color: #cfb53b;
+    border-radius: 5px;
+
+    h5 {
+        margin: 0;
+
+        text-align: center;
+        font-size: large;
+        font-weight: bold;
+    }
+
+    ul {
+        padding: 0 1rem;
+        list-style-type: none;
+    }
+
+    .resume-component {
+        display: block;
+        font-weight: bold;
+    }
+
+    .resume-option {
+        font-size: small;
+    }
+}

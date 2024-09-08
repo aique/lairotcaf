@@ -1,8 +1,8 @@
 import { ConfiguratorOptions } from "@factorial/models";
-import { ProductRepository } from "../repository/product.repository";
+import { ConfiguratorRepository } from "../repository/configurator.repository";
 
 export class ConfiguratorOptionsProvider {
-    constructor(protected repository: ProductRepository) {}
+    constructor(protected repository: ConfiguratorRepository) {}
 
     async getOptions(product: string): Promise<ConfiguratorOptions> {
         return await this.repository.getConfiguratorOptions(product)

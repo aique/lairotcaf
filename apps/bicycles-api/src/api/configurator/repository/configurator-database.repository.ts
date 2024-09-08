@@ -1,8 +1,8 @@
 import { ConfiguratorComponent, ConfiguratorComponentOption, ConfiguratorOptionPriceCombination, ConfiguratorOptions } from "@factorial/models";
 import { DatabaseConnector } from "../../storage/database";
-import { ProductRepository } from "./product.repository";
+import { ConfiguratorRepository } from "./configurator.repository";
 
-export class DatabaseRepository implements ProductRepository {
+export class ConfiguratorDatabaseRepository implements ConfiguratorRepository {
     constructor(private db: DatabaseConnector) {}
 
     async getConfiguratorOptions(product: string): Promise<ConfiguratorOptions> {
@@ -12,7 +12,7 @@ export class DatabaseRepository implements ProductRepository {
             SELECT component.id, component.name
             FROM component
             JOIN product ON component.product = product.id
-            WHERE product.name = "${product}"
+            WHERE product.slug = "${product}"
         `)
 
         for (let component of components) {

@@ -5,7 +5,7 @@ import { EMPTY, Observable, catchError } from 'rxjs';
 
 @Injectable()
 export class ConfiguratorService {
-    private readonly URL = `http://localhost:8888/configurator/options`
+    private readonly URL = `http://localhost:8888/api/configurator/options`
 
     constructor(private http: HttpClient) {}
 

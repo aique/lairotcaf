@@ -1,3 +1,13 @@
+export interface ComponentOptionsResumeItem {
+  name: string,
+  option: string,
+  price: number
+}
+
+export interface ComponentOptionsResume {
+  components: ComponentOptionsResumeItem[]
+}
+
 export interface ConfiguratorOptionPriceCombination {
   options: number[],
   price: number
@@ -109,16 +119,22 @@ export class ConfiguratorSelection {
     let price = 0
 
     for (let selectedOption of this.selectedOptions.values()) {
-      if (selectedOption.price) {
-        price += selectedOption.price
-      }
-
-      if (selectedOption.priceCombinations.length > 0) {
-        price += this.getPriceFromProductCombinations(selectedOption.priceCombinations)
-      }
+      price += this.getOptionPrice(selectedOption)
     }
 
     return price
+  }
+
+  getOptionPrice(option: ConfiguratorComponentOption): number {
+    if (option.price) {
+        return option.price
+    }
+
+    if (option.priceCombinations.length > 0) {
+      return this.getPriceFromProductCombinations(option.priceCombinations)
+    }
+
+    return 0
   }
 
   private getPriceFromProductCombinations(priceCombinations: ConfiguratorOptionPriceCombination[]): number {
@@ -146,5 +162,25 @@ export class ConfiguratorSelection {
     }
 
     return priceCombination.price
+  }
+
+  getResume(): ComponentOptionsResumeItem[] {
+    const resume: ComponentOptionsResumeItem[] = []
+
+    for (let component of this.selectedOptions.keys()) {
+      const selectedOption = this.selectedOptions.get(component)
+
+      if (!selectedOption) {
+        continue
+      }
+      
+      resume.push({
+        name: component,
+        option: selectedOption.name,
+        price: this.getOptionPrice(selectedOption)
+      })
+    }
+
+    return resume
   }
 }

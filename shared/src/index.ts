@@ -1,1 +1,2 @@
-export * from './lib/models';
+export * from './lib/configurator.models';
+export * from './lib/store.models';
