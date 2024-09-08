@@ -16,19 +16,19 @@ export class ConfiguratorDatabaseRepository implements ConfiguratorRepository {
         `)
 
         for (let component of components) {
-            component.options = await this.getComponentOptions(component.id)
+            component.options = await this.getComponentOptions(component)
         }
 
         return { components: components }
     }
 
-    private async getComponentOptions(componentId: number): Promise<ConfiguratorComponentOption[]> {
+    private async getComponentOptions(component: ConfiguratorComponent): Promise<ConfiguratorComponentOption[]> {
         const db = await this.db.openConnection()
 
         const optionRows = await db.all(`
             SELECT id, name, price, stock, incompatible_options
             FROM component_option
-            WHERE component_id = ${componentId}
+            WHERE component_id = ${component.id}
         `)
 
         const options = []
@@ -38,6 +38,10 @@ export class ConfiguratorDatabaseRepository implements ConfiguratorRepository {
 
             options.push({
                 id: option.id,
+                component: {
+                    id: component.id,
+                    name: component.name
+                },
                 name: option.name,
                 price: option.price,
                 stock: option.stock,

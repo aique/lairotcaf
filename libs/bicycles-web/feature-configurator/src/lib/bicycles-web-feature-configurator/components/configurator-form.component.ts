@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ComponentOptionsResumeItem, ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorComponentOption, ConfiguratorSelection } from '@factorial/models';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { CheckoutOrderProduct, ComponentOptionsResumeItem, ConfiguratorComponent, ConfiguratorComponentCollection, ConfiguratorComponentOption, ConfiguratorSelection } from '@factorial/models';
 
 @Component({
   selector: 'feature-configurator-form',
@@ -10,7 +10,7 @@ import { ComponentOptionsResumeItem, ConfiguratorComponent, ConfiguratorComponen
     </p>
     <!-- configurator -->
     <div *ngIf="hasComponents()">
-      <form>
+      <form action="" (submit)="doSubmit($event)">
         <div class="form-columns">
           <div class="form-groups">
             <div *ngFor="let component of componentCollection.getComponents()">
@@ -66,7 +66,9 @@ import { ComponentOptionsResumeItem, ConfiguratorComponent, ConfiguratorComponen
 })
 
 export class FeatureConfiguratorFormComponent {
+  @Input() product: string = ''
   @Input() componentCollection: ConfiguratorComponentCollection = new ConfiguratorComponentCollection([])
+  @Output() checkout = new EventEmitter<CheckoutOrderProduct>();
 
   selectedOptions = new ConfiguratorSelection()
   selectedOptionIds: number[] = []
@@ -109,5 +111,10 @@ export class FeatureConfiguratorFormComponent {
     this.error = this.selectedOptions.getIncompatibleOptionsError()
     this.price = this.selectedOptions.getPrice()
     this.resume = this.selectedOptions.getResume()
+  }
+
+  doSubmit(event: Event): void {
+    event.preventDefault()
+    this.checkout.next(this.selectedOptions.getOrder(this.product))
   }
 }

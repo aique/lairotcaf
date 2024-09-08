@@ -8,6 +8,9 @@ const routes: Routes = [{
 }, {
     path: 'configurator',
     loadChildren: () => import('@factorial/bicycles-web/feature-configurator').then(({ FeatureConfiguratorModule }) => FeatureConfiguratorModule)
+}, {
+    path: 'checkout',
+    loadChildren: () => import('@factorial/bicycles-web/feature-checkout').then(({ FeatureCheckoutModule }) => FeatureCheckoutModule)
 }];
 
 @NgModule({

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ConfiguratorActions } from '../actions/configurator.actions';
 import { configuratorSelector } from '../selectors/configurator.selector';
-import { ConfiguratorComponent, ConfiguratorComponentCollection } from '@factorial/models';
+import { CheckoutOrderProduct, ConfiguratorComponent, ConfiguratorComponentCollection } from '@factorial/models';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -17,7 +17,9 @@ import { ActivatedRoute } from '@angular/router';
       <!-- configurator form -->
       <feature-configurator-form
         *ngIf="!loading"
+        [product]="product"
         [componentCollection]="componentCollection"
+        (checkout)="doCheckout($event)"
       >
       </feature-configurator-form>
     </div>
@@ -53,5 +55,9 @@ export class FeatureConfiguratorContainer implements OnInit {
 
   getProductFromQueryParam(): string {
     return this.route.snapshot.queryParamMap.get('product') || ''
+  }
+
+  doCheckout(order: CheckoutOrderProduct): void {
+    this.store.dispatch(ConfiguratorActions.configurationCheckout(order))
   }
 }

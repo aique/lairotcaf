@@ -1,3 +1,5 @@
+import { CheckoutOrderProduct, CheckoutOrderProductComponent } from "./checkout.models"
+
 export interface ComponentOptionsResumeItem {
   name: string,
   option: string,
@@ -15,6 +17,10 @@ export interface ConfiguratorOptionPriceCombination {
 
 export interface ConfiguratorComponentOption {
   id: number,
+  component: {
+    id: number,
+    name: string
+  },
   name: string,
   price: number | null,
   stock: number | null
@@ -125,7 +131,7 @@ export class ConfiguratorSelection {
     return price
   }
 
-  getOptionPrice(option: ConfiguratorComponentOption): number {
+  private getOptionPrice(option: ConfiguratorComponentOption): number {
     if (option.price) {
         return option.price
     }
@@ -182,5 +188,26 @@ export class ConfiguratorSelection {
     }
 
     return resume
+  }
+
+  getOrder(product: string): CheckoutOrderProduct {
+    const components: CheckoutOrderProductComponent[] = []
+
+    for (let selectedOption of this.selectedOptions.values()) {
+      components.push({
+        id: selectedOption.component.id,
+        name: selectedOption.component.name,
+        option: {
+          id: selectedOption.id,
+          name: selectedOption.name,
+          price: this.getOptionPrice(selectedOption)
+        }
+      })
+    }
+
+    return {
+      product,
+      components
+    }
   }
 }

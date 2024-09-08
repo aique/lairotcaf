@@ -16,6 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@factorial/bicycles-web-lib": ["libs/bicycles-web-lib/src/index.ts"],
+      "@factorial/bicycles-web/feature-checkout": [
+        "libs/bicycles-web/feature-checkout/src/index.ts"
+      ],
       "@factorial/bicycles-web/feature-configurator": [
         "libs/bicycles-web/feature-configurator/src/index.ts"
       ],

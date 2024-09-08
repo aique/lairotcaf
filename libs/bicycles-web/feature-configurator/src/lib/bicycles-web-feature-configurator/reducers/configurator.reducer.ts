@@ -1,15 +1,20 @@
-import { ConfiguratorComponent } from "@factorial/models";
+import { CheckoutOrderProduct, ConfiguratorComponent } from "@factorial/models";
 import { createReducer, on } from "@ngrx/store";
 import { ConfiguratorActions } from "../actions/configurator.actions";
 
 export const configuratorFeatureKey = 'configurator';
 
 export interface State {
+    order: CheckoutOrderProduct,
     components: ConfiguratorComponent[]
     loading: boolean
 }
 
 export const initialState: State = {
+    order: {
+        product: '',
+        components: []
+    },
     components: [],
     loading: true
 }
@@ -22,6 +27,13 @@ export const reducer = createReducer(
             ...state,
             components: response.components,
             loading: false
+        })
+    ),
+    on(
+        ConfiguratorActions.configurationCheckout,
+        (state, order): State => ({
+            ...state,
+            order
         })
     )
 )

@@ -17,7 +17,7 @@ import { FeatureConfiguratorResumeComponent } from "./components/configurator-re
     declarations: [
       FeatureConfiguratorContainer,
       FeatureConfiguratorFormComponent,
-      FeatureConfiguratorResumeComponent,
+      FeatureConfiguratorResumeComponent
     ],
     imports: [
       CommonModule,
@@ -26,6 +26,9 @@ import { FeatureConfiguratorResumeComponent } from "./components/configurator-re
       StoreModule.forFeature(fromConfigurator.configuratorFeatureKey, fromConfigurator.reducer),
       LoadingSpinnerComponent,
       FeatureConfiguratorRoutingModule
+    ],
+    exports: [
+      FeatureConfiguratorResumeComponent
     ],
     providers: [
       ConfiguratorService,
