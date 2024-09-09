@@ -11,6 +11,10 @@ const loadConfiguratorOptionsSuccess = createAction(
   props<ConfiguratorOptions>()
 );
 
+const loadConfiguratorOptionsFailed = createAction(
+  '[Configurator] Load Configurator Options Failed'
+);
+
 const configurationCheckout = createAction(
   '[Configurator] Configurator Checkout',
   props<CheckoutOrderProduct>()
@@ -19,5 +23,6 @@ const configurationCheckout = createAction(
 export const ConfiguratorActions = {
     loadConfiguratorOptions,
     loadConfiguratorOptionsSuccess,
+    loadConfiguratorOptionsFailed,
     configurationCheckout
 };

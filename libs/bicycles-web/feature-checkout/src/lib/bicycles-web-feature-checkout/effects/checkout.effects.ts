@@ -21,8 +21,8 @@ export class CheckoutEffects {
                 withLatestFrom(this.store.select(checkoutSelector.selectOrder)),
                 switchMap(([userData, productOrder]) => {
                     return this.checkout.setOrder({ userData, productOrder }).pipe(
-                        map((response) => {
-                            if (response) {
+                        map((success) => {
+                            if (success) {
                                 return CheckoutActions.storeOrderSuccess()
                             }
 

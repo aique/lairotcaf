@@ -27,6 +27,13 @@ export const reducer = createReducer(
         })
     ),
     on(
+        ConfiguratorActions.loadConfiguratorOptionsFailed,
+        (state): State => ({
+            ...state,
+            loading: false
+        })
+    ),
+    on(
         ConfiguratorActions.configurationCheckout,
         (state, order): State => ({
             ...state,

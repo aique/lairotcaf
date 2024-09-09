@@ -10,7 +10,12 @@ const loadStoreProductsSuccess = createAction(
   props<StoreProducts>()
 );
 
+const loadStoreProductsFailed = createAction(
+  '[Store] Load Configurator Products Failed'
+);
+
 export const StoreActions = {
     loadStoreProducts,
-    loadStoreProductsSuccess
+    loadStoreProductsSuccess,
+    loadStoreProductsFailed
 };

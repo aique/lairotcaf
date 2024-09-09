@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ConfiguratorActions } from '../actions/configurator.actions';
 import { ConfiguratorService } from '../services/configurator.service';
-import { map, switchMap, tap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -19,8 +19,9 @@ export class ConfiguratorEffects {
             this.actions$.pipe(
                 ofType(ConfiguratorActions.loadConfiguratorOptions),
                 switchMap((data) => this.configurator.getConfiguratorComponents(data.product).pipe(
-                    map((response) => ConfiguratorActions.loadConfiguratorOptionsSuccess(response)
-                ))
+                    map((response) => ConfiguratorActions.loadConfiguratorOptionsSuccess(response)),
+                    catchError(() => of(ConfiguratorActions.loadConfiguratorOptionsFailed()))
+                )
             ))
         )
 

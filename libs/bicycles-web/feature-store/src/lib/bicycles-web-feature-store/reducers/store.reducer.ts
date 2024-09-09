@@ -5,10 +5,12 @@ import { StoreActions } from "../actions/store.actions";
 export const storeFeatureKey = 'store';
 
 export interface State {
+    error: boolean,
     products: StoreProduct[]
 }
 
 export const initialState: State = {
+    error: false,
     products: []
 }
 
@@ -18,7 +20,15 @@ export const reducer = createReducer(
         StoreActions.loadStoreProductsSuccess,
         (state, response): State => ({
             ...state,
-            products: response.products
+            products: response.products,
+            error: false
+        })
+    ),
+    on(
+        StoreActions.loadStoreProductsFailed,
+        (state): State => ({
+            ...state,
+            error: true
         })
     )
 )

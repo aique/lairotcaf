@@ -17,5 +17,5 @@ export const selectLoadingState = createSelector(
 
 export const configuratorSelector = {
     selectConfiguratorComponents,
-    selectLoadingState,
+    selectLoadingState
 }
