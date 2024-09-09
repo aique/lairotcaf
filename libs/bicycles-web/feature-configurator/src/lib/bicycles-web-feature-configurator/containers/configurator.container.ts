@@ -4,6 +4,7 @@ import { ConfiguratorActions } from '../actions/configurator.actions';
 import { configuratorSelector } from '../selectors/configurator.selector';
 import { CheckoutOrderProduct, ConfiguratorComponent, ConfiguratorComponentCollection } from '@factorial/models';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'feature-configurator-container',
@@ -12,11 +13,11 @@ import { ActivatedRoute } from '@angular/router';
       <h3>Configurator</h3>
       <!-- loading spinner during configurator components are loading -->
       <loading-spinner
-        *ngIf="loading"
+        *ngIf="loading$ | async"
       ></loading-spinner>
       <!-- configurator form -->
       <feature-configurator-form
-        *ngIf="!loading"
+        *ngIf="!(loading$ | async)"
         [product]="product"
         [componentCollection]="componentCollection"
         (checkout)="doCheckout($event)"
@@ -28,8 +29,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class FeatureConfiguratorContainer implements OnInit {
-  product: string = '';
-  loading: boolean = true;
+  loading$: Observable<boolean>
+
+  product: string = ''
   componentCollection: ConfiguratorComponentCollection = new ConfiguratorComponentCollection([])
 
   constructor (
@@ -37,15 +39,11 @@ export class FeatureConfiguratorContainer implements OnInit {
     private route: ActivatedRoute
   ) {
     this.product = this.getProductFromQueryParam();
+    this.loading$ = this.store.select(configuratorSelector.selectLoadingState)
 
     this.store.select(configuratorSelector.selectConfiguratorComponents)
       .subscribe((components: ConfiguratorComponent[]) => {
         this.componentCollection = new ConfiguratorComponentCollection(components)
-      })
-
-    this.store.select(configuratorSelector.selectLoadingState)
-      .subscribe((loading: boolean) => {
-        this.loading = loading
       })
   }
 
