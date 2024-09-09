@@ -28,7 +28,21 @@ export const selectOrderResume = createSelector(
     }
 );
 
+export const selectOrderPrice = createSelector(
+    selectCheckoutState,
+    (state) => {
+        let price = 0
+
+        for (let component of state.order.components) {
+            price += component.option.price
+        }
+
+        return price
+    }
+);
+
 export const checkoutSelector = {
     selectOrder,
-    selectOrderResume
+    selectOrderResume,
+    selectOrderPrice
 }

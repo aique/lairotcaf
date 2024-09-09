@@ -50,6 +50,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 
 export class FeatureCheckoutFormComponent {
+  @Input() price: number | null = 0
   @Input() resume: ComponentOptionsResumeItem[] = []
   @Output() checkout = new EventEmitter<CheckoutUserData>()
 
@@ -58,7 +59,10 @@ export class FeatureCheckoutFormComponent {
   });
 
   error = ''
-  price = 0
+
+  disableSubmit(): boolean {
+    return this.error !== ''
+  }
 
   doSubmit(): void {
     if (this.checkoutForm.invalid) {
