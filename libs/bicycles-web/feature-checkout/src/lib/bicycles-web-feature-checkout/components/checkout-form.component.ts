@@ -15,9 +15,30 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
         <div class="form-columns">
           <div class="form-groups">
             <div class="form-group">
-              <label>Nombre</label>
+              <label>Name</label>
               <input formControlName="name" type="text" />
-              <p class="error" *ngIf="this.checkoutForm.touched && this.checkoutForm.controls['name'].invalid">
+              <p class="error" *ngIf="isInvalidField('name')">
+                {{ INVALID_FIELD_ERROR }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label>Surname</label>
+              <input formControlName="surname" type="text" />
+              <p class="error" *ngIf="isInvalidField('surname')">
+                {{ INVALID_FIELD_ERROR }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input formControlName="email" type="text" />
+              <p class="error" *ngIf="isInvalidField('email')">
+                {{ INVALID_FIELD_ERROR }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label>Contact Phone</label>
+              <input formControlName="phone" type="text" />
+              <p class="error" *ngIf="isInvalidField('phone')">
                 {{ INVALID_FIELD_ERROR }}
               </p>
             </div>
@@ -64,11 +85,24 @@ export class FeatureCheckoutFormComponent {
 
   checkoutForm = new FormGroup({
     name: new FormControl<string>('', [Validators.required]),
+    surname: new FormControl<string>('', [Validators.required]),
+    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    phone: new FormControl<string>('', [Validators.required]),
   });
 
   readonly INVALID_FIELD_ERROR = 'Invalid form value'
 
   error = ''
+
+  isInvalidField(fieldName: string): boolean {
+    const control = this.checkoutForm.get(fieldName)
+
+    if (!control) {
+      return false
+    }
+
+    return control.touched && control.invalid
+  }
 
   disableSubmit(): boolean {
     return this.checkoutForm.invalid
