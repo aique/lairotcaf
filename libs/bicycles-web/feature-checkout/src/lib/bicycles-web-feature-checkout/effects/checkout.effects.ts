@@ -6,7 +6,6 @@ import { CheckoutActions } from '../actions/checkout.actions';
 import { Store } from '@ngrx/store';
 import { checkoutSelector } from '../selectors/checkout.selector';
 
-
 @Injectable()
 export class CheckoutEffects {
     storeOrder$
@@ -20,10 +19,17 @@ export class CheckoutEffects {
             this.actions$.pipe(
                 ofType(CheckoutActions.storeOrder),
                 withLatestFrom(this.store.select(checkoutSelector.selectOrder)),
-                switchMap(([userData, productOrder]) => this.checkout.setOrder({ userData, productOrder }).pipe(
-                    map(() => CheckoutActions.storeOrderSuccess(),
-                ))
-            ))
+                switchMap(([userData, productOrder]) => {
+                    return this.checkout.setOrder({ userData, productOrder }).pipe(
+                        map((response) => {
+                            if (response) {
+                                return CheckoutActions.storeOrderSuccess()
+                            }
+
+                            return CheckoutActions.storeOrderFailed()
+                        })
+                    )
+            }))
         )
     }
 }

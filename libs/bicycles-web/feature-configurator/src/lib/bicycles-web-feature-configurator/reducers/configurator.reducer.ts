@@ -5,16 +5,13 @@ import { ConfiguratorActions } from "../actions/configurator.actions";
 export const configuratorFeatureKey = 'configurator';
 
 export interface State {
-    order: CheckoutOrderProduct,
+    order: CheckoutOrderProduct | null,
     components: ConfiguratorComponent[]
     loading: boolean
 }
 
 export const initialState: State = {
-    order: {
-        product: '',
-        components: []
-    },
+    order: null,
     components: [],
     loading: true
 }

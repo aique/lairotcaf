@@ -19,5 +19,5 @@ export interface CheckoutUserData {
 
 export interface CheckoutOrder {
   userData: CheckoutUserData
-  productOrder: CheckoutOrderProduct
+  productOrder: CheckoutOrderProduct | null
 }

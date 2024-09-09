@@ -10,7 +10,12 @@ const storeOrderSuccess = createAction(
   '[Checkout] Store Order Success'
 );
 
+const storeOrderFailed = createAction(
+  '[Checkout] Store Order Failder'
+);
+
 export const CheckoutActions = {
   storeOrder,
-  storeOrderSuccess
+  storeOrderSuccess,
+  storeOrderFailed
 };

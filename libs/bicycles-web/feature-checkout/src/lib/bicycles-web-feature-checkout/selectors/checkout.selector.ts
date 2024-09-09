@@ -1,19 +1,28 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { ComponentOptionsResumeItem } from '@factorial/models';
+import * as fromCheckout from '../reducers/checkout.reducer';
 import * as fromConfigurator from '../../../../../feature-configurator/src/lib/bicycles-web-feature-configurator/reducers/configurator.reducer';
 
-export const selectCheckoutState = createFeatureSelector<fromConfigurator.State>(
+export const selectConfiguratorState = createFeatureSelector<fromConfigurator.State>(
     fromConfigurator.configuratorFeatureKey
 );
 
+export const selectCheckoutState = createFeatureSelector<fromCheckout.State>(
+    fromCheckout.checkoutFeatureKey
+);
+
 export const selectOrder = createSelector(
-    selectCheckoutState,
+    selectConfiguratorState,
     (state) => state.order
 );
 
 export const selectOrderResume = createSelector(
-    selectCheckoutState,
+    selectConfiguratorState,
     (state) => {
+        if (!state.order) {
+            return []
+        }
+        
         const resume: ComponentOptionsResumeItem[] = []
 
         for (let component of state.order.components) {
@@ -29,8 +38,12 @@ export const selectOrderResume = createSelector(
 );
 
 export const selectOrderPrice = createSelector(
-    selectCheckoutState,
+    selectConfiguratorState,
     (state) => {
+        if (!state.order) {
+            return 0
+        }
+
         let price = 0
 
         for (let component of state.order.components) {
@@ -41,8 +54,14 @@ export const selectOrderPrice = createSelector(
     }
 );
 
+export const selectError = createSelector(
+    selectCheckoutState,
+    (state) => state.error
+);
+
 export const checkoutSelector = {
     selectOrder,
     selectOrderResume,
-    selectOrderPrice
+    selectOrderPrice,
+    selectError
 }

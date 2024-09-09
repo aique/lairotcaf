@@ -10,6 +10,8 @@ import { EffectsModule } from "@ngrx/effects";
 import { CheckoutEffects } from "./effects/checkout.effects";
 import { CheckoutService } from "./services/checkout.service";
 import { FeatureConfiguratorModule } from "@factorial/bicycles-web/feature-configurator";
+import { StoreModule } from "@ngrx/store";
+import * as fromCheckout from './reducers/checkout.reducer';
 
 @NgModule({
     declarations: [
@@ -21,6 +23,7 @@ import { FeatureConfiguratorModule } from "@factorial/bicycles-web/feature-confi
       RouterModule,
       ReactiveFormsModule,
       EffectsModule.forFeature([CheckoutEffects]),
+      StoreModule.forFeature(fromCheckout.checkoutFeatureKey, fromCheckout.reducer),
       FeatureCheckoutRoutingModule,
       FeatureConfiguratorModule
     ],
