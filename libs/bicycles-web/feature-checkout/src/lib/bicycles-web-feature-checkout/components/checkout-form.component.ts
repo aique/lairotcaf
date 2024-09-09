@@ -17,6 +17,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
             <div class="form-group">
               <label>Nombre</label>
               <input formControlName="name" type="text" />
+              <p class="error" *ngIf="this.checkoutForm.touched && this.checkoutForm.controls['name'].invalid">
+                {{ INVALID_FIELD_ERROR }}
+              </p>
             </div>
           </div>
           <!-- buy area -->
@@ -24,10 +27,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
             <div class="submit-controls">
               <input
                 class="button"
-                [ngClass]="{ 'disabled': false }"
+                [ngClass]="{ 'disabled': disableSubmit() }"
                 type="submit"
                 value="Create order!"
-                [disabled]="false"
+                [disabled]="disableSubmit()"
               />
               <span class="price" *ngIf="price">
                 <span class="price-value">{{ price }}</span> €
@@ -58,10 +61,12 @@ export class FeatureCheckoutFormComponent {
     name: new FormControl<string>('', [Validators.required]),
   });
 
+  readonly INVALID_FIELD_ERROR = 'Invalid form value'
+
   error = ''
 
   disableSubmit(): boolean {
-    return this.error !== ''
+    return this.checkoutForm.invalid
   }
 
   doSubmit(): void {
