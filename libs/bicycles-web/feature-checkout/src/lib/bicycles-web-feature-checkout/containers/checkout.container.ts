@@ -11,6 +11,7 @@ import { checkoutSelector } from '../selectors/checkout.selector';
     <div class="content">
       <h3>Checkout</h3>
       <feature-checkout-form
+        *ngIf="resume$ | async as resume"
         [resume]="resume"
         (checkout)="doCheckout($event)"
       ></feature-checkout-form>
@@ -20,20 +21,12 @@ import { checkoutSelector } from '../selectors/checkout.selector';
 })
 
 export class FeatureCheckoutContainer {
-  resume: ComponentOptionsResumeItem[] = []
+  resume$: Observable<ComponentOptionsResumeItem[]>
+
   productOrder$ = Observable<CheckoutOrderProduct>;
 
   constructor(private store: Store) {
-    this.store.select(checkoutSelector.selectOrder)
-      .subscribe((order) => {
-        for (let component of order.components) {
-          this.resume.push({
-            name: component.name,
-            option: component.option.name,
-            price: component.option.price
-          })
-        }
-      })
+    this.resume$ = this.store.select(checkoutSelector.selectOrderResume)
   }
 
   doCheckout(userData: CheckoutUserData): void {
