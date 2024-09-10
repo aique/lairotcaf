@@ -8,6 +8,9 @@ import { StoreProductsProvider } from "../api/store/providers/store-products.pro
 import { ProductDatabaseRepository } from "../api/store/repository/product-database.repository";
 import { StoreController } from "../api/controllers/store.controller";
 import { StoreProductsService } from "../api/store/store-products.service";
+import { CheckoutController } from "../api/controllers/checkout.controller";
+import { CheckoutService } from "../api/checkout/checkout.service";
+import { OrderDatabaseRepository } from "../api/checkout/repository/order-database.repository";
 
 export default function configureRouter(app: Express) {
   const productsProvider = new StoreProductsProvider(
@@ -39,4 +42,15 @@ export default function configureRouter(app: Express) {
 
   app.route('/api/configurator/options')
       .get(configuratorController.actionGetConfiguratorOptions.bind(configuratorController))
+
+  const checkoutController = new CheckoutController(
+    new CheckoutService(
+      new OrderDatabaseRepository(
+        new DatabaseConnector()
+      )
+    )
+  )
+
+  app.route('/api/order/checkout')
+      .post(checkoutController.actionStoreOrder.bind(checkoutController))
 }

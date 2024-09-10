@@ -11,9 +11,11 @@ export class ConfiguratorDatabaseRepository implements ConfiguratorRepository {
         const components: ConfiguratorComponent[] = await db.all(`
             SELECT component.id, component.name
             FROM component
-            JOIN product ON component.product = product.id
+            JOIN product ON component.product_id = product.id
             WHERE product.slug = "${product}"
         `)
+
+        console.log('compo', components)
 
         for (let component of components) {
             component.options = await this.getComponentOptions(component)
@@ -59,7 +61,8 @@ export class ConfiguratorDatabaseRepository implements ConfiguratorRepository {
         const priceCombinations = await db.all(`
             SELECT combinations, price
             FROM option_combination
-            WHERE option = ${optionId}
+            WHERE option_id = ${optionId}
+            LIMIT 1
         `)
 
         return priceCombinations.map((priceCombination) => {

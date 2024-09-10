@@ -207,6 +207,7 @@ export class ConfiguratorSelection {
 
     return {
       product,
+      price: this.getPrice(),
       components
     }
   }

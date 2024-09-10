@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { CheckoutOrder } from "@factorial/models";
-import { EMPTY, Observable, catchError, map, of } from 'rxjs';
+import { CheckoutOrder, CheckoutOrderBody, CheckoutOrderBodyComponent, CheckoutUserData } from "@factorial/models";
+import { Observable, catchError, map, of } from 'rxjs';
 
 @Injectable()
 export class CheckoutService {
@@ -10,15 +10,40 @@ export class CheckoutService {
     constructor(private http: HttpClient) {}
 
     setOrder(order: CheckoutOrder): Observable<boolean> {
-        if (!order.productOrder) {
+        const body = this.composeBody(order)
+
+        if (!body) {
             return of(false)
         }
-        
-        const body = {}
 
         return this.http.post<void>(this.URL, body).pipe(
             map(() => true),
-            catchError((error: unknown) => of(false))
-        );
+            catchError(() => of(false))
+        )
+    }
+
+    private composeBody(order: CheckoutOrder): CheckoutOrderBody | null {       
+        if (!order.productOrder) {
+            return null
+        }
+
+        const components: CheckoutOrderBodyComponent[] = []
+
+        for (let component of order.productOrder.components) {
+            components.push({
+                id: component.id,
+                option: component.option.id,
+            })
+        }
+        
+        const body = {
+            userData: order.userData,
+            order: {
+                product: order.productOrder.product,
+                components
+            }
+        }
+
+        return body
     }
 }

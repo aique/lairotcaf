@@ -114,10 +114,15 @@ export class FeatureCheckoutFormComponent {
       return
     }
 
-    const { name } = this.checkoutForm.value;
+    const {
+      name, surname, email, phone
+    } = this.checkoutForm.value;
 
     this.checkout.next({
-      name: name || ''
+      name: name || '',
+      surname: surname || '',
+      email: email || '',
+      phone: phone || '',
     })
   }
 }
