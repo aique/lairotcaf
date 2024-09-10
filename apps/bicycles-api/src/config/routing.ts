@@ -11,7 +11,7 @@ import { StoreProductsProviderService } from "../api/store/services/store-produc
 import { CheckoutController } from "../api/checkout/controllers/checkout.controller";
 import { OrderCreatorService } from "../api/checkout/services/order-creator.service";
 import { OrderDatabaseRepository } from "../api/checkout/repository/order-database.repository";
-import { CheckoutValidator } from "../api/checkout/checkout.validator";
+import { CheckoutValidator } from "../api/checkout/validators/checkout.validator";
 import { SelectionComposerService } from "../api/checkout/services/selection-composer.service";
 
 export default function configureRouter(app: Express) {

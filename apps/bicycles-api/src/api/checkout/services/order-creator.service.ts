@@ -1,5 +1,5 @@
 import { OrderDatabaseRepository } from "../repository/order-database.repository";
-import { CheckoutValidator } from "../checkout.validator";
+import { CheckoutValidator } from "../validators/checkout.validator";
 import { CheckoutOrderBody, ConfiguratorSelection } from "@factorial/models";
 import { SelectionComposerService } from "./selection-composer.service";
 
