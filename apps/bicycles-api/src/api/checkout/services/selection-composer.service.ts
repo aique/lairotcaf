@@ -49,15 +49,15 @@ export class SelectionComposerService {
     ): boolean {
         if (configuration.components.length !== components.length) {
             console.log('[SelectionComposerService] - Invalid components number')
-            return false
+            return true
         }
 
         if(this.duplicatedComponents(configuration)) {
             console.log('[SelectionComposerService] - Duplicated component')
-            return false
+            return true
         }
 
-        return true
+        return false
     }
 
     private duplicatedComponents(configuration: ConfiguratorOptions): boolean {
