@@ -1,4 +1,4 @@
-import { CheckoutOrderBodyComponent, ConfiguratorComponentCollection, ConfiguratorSelection } from "@factorial/models"
+import { CheckoutOrderBodyComponent, ConfiguratorComponentCollection, ConfiguratorOptions, ConfiguratorSelection } from "@factorial/models"
 import { ConfiguratorOptionsProviderService } from "../../configurator/services/configurator-options-provider.service"
 import { OrderDatabaseRepository } from "../repository/order-database.repository"
 
@@ -12,12 +12,18 @@ export class SelectionComposerService {
         product: string,
         components: CheckoutOrderBodyComponent[]
     ): Promise<ConfiguratorSelection> {
-        const configuratorOptions = await this.configuratorOptions.provide(product)
-        const componentCollection = new ConfiguratorComponentCollection(configuratorOptions.components)
+        const configuration = await this.configuratorOptions.provide(product)
+        const componentCollection = new ConfiguratorComponentCollection(configuration.components)
         const selection = new ConfiguratorSelection()
 
+        if (this.invalidSelectedComponents(configuration, components)) {
+            throw new Error('Configuration error')
+        }
+
         for (let orderComponent of components) {
-            const component = await this.repository.getComponent(orderComponent.id)
+            const componentId = orderComponent.id
+
+            const component = await this.repository.getComponent(componentId)
 
             if (!component) {
                 console.log('[CheckoutService] - Component not found')
@@ -35,5 +41,36 @@ export class SelectionComposerService {
         }
 
         return selection
+    }
+
+    private invalidSelectedComponents(
+        configuration: ConfiguratorOptions,
+        components: CheckoutOrderBodyComponent[]
+    ): boolean {
+        if (configuration.components.length !== components.length) {
+            console.log('[SelectionComposerService] - Invalid components number')
+            return false
+        }
+
+        if(this.duplicatedComponents(configuration)) {
+            console.log('[SelectionComposerService] - Duplicated component')
+            return false
+        }
+
+        return true
+    }
+
+    private duplicatedComponents(configuration: ConfiguratorOptions): boolean {
+        const componentIds = []
+
+        for (let component of configuration.components) {
+            if (componentIds.includes(component.id)) {
+                return true
+            }
+
+            componentIds.push(component.id)
+        }
+
+        return false
     }
 }

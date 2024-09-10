@@ -37,8 +37,6 @@ export class OrderCreatorService {
             return this.INVALID_SELECTION_MESSAGE
         }
 
-        // TODO comprobar si todas las opciones están cubiertas
-
         const success = await this.repository.storeOrder(
             body, selection
         )
