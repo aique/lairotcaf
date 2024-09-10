@@ -2,16 +2,16 @@ import sqlite3 from 'sqlite3';
 import { Database, open } from 'sqlite';
 
 export class DatabaseConnector {
+    private readonly DATABASE_FILE = './apps/bicycles-api/bicycles-api.db'
+
     openConnection = async (): Promise<Database> => {
         let db: Database | null = null;
         
         if (!db) {
             db = await open({
-                filename: './apps/bicycles-api/bicycles-api.db',
+                filename: this.DATABASE_FILE,
                 driver: sqlite3.Database
             });
-            
-            console.log('Database SQLite connected successfully')
         }
     
         return db

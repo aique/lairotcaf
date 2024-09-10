@@ -1,6 +1,168 @@
 # Factorial
 
-## Technical challenge
+Descripción de la prueba técnica, basada en el enunciado del ejercicio de prueba **tienda de bicicletas**.
+
+## Requisitos
+
+Para la ejecución en local de esta aplicación será necesaria la versión **v20.11.1** de Node.
+
+El proceso de instalación de dependencias con *npm* se podrá realizar ejecutando los siguientes comandos:
+
+```sh
+nvm use
+npm ci
+```
+
+## Comandos de ejecución
+
+Lanzar la ejecución de la api:
+
+```sh
+npx nx serve bicycles-api
+```
+
+Con este comando se levantará la api, consistente en Node.js + Express
+
+Lanzar la aplicación web:
+
+```sh
+npx nx build bicycles-web
+```
+
+Con este comando se levantará la aplicación web
+
+Lanzar las pruebas de la api:
+
+```sh
+npx nx e2e bicycles-api-e2e
+```
+
+## Modelo de datos
+
+El modelo de la base de datos es el siguiente:
+
+![Diagrama del modelo de base de datos](./doc/img/db-diagram.png)
+
+### product
+
+Producto configurable y del que la tienda permite crear pedidos en base a una configuración definida por el usuario.
+
+### component
+
+Componente del producto que podrá ser configurado en el pedido final.
+
+- **product_id** - Identificador del producto asociado al componente.
+
+### component_option
+
+Será una de las posibles opciones que puede configurarse para un componente.
+
+- **component_id** - Identificador del componente asociado a la opción.
+
+-**price** - Precio de la opción al margen de posibles combinaciones con otras.
+
+- **stock** - Número de unidades disponibles. En caso de ser NULL se considerará que el stock es ilimitado.
+
+- **incompatible_options** - Array de enteros con los identificadores de las opciones que no podrán combinarse con ella.
+
+### option_combination
+
+Utilizado en caso de que el precio de un producto resulte de su combinación con otros.
+
+- **option_id** - Determina la opción cuyo precio puede variar.
+- **combinations** - Será un array de enteros con identificadores de otras opciones.
+- **price** - Será el precio de la opción identificada mediante *option_id* fruto de su combinación con las opciones identificadas en *combinations*.
+
+### order
+
+Representa un pedido realizado por el usuario.
+
+- **price** - Precio del pedido calculado internamente una vez recibida la petición de alta de un pedido en base a las opciones seleccionadas. Este campo no puede ser calculado dinámicamente a posteriori ya que los precios de las opciones pueden variar.
+
+- **product** - Nombre del producto. Quedará registrado su nombre y no vinculado mediante un identificador para mantener la referencia en caso de que el producto se elimine de la base de datos.
+
+### order_component
+
+Representa la configuración seleccionada para cada componente del producto.
+
+- **order_id** - Asocia cada registro con el pedido principal al que corresponde.
+
+- **component** - Nombre del componente. Quedará registrado su nombre por las mismas razones comentadas anteriormente.
+
+- **option** - Nombre de la opción seleccionada. Quedará registrado su nombre por las mismas razones comentadas anteriormente.
+
+- **price** - Precio de la opción calculado internamente una vez recibida la petición de alta de un pedido en base a las opciones seleccionadas. Este campo no puede ser calculado dinámicamente a posteriori ya que los precios de las opciones pueden variar.
+
+## Arquitectura
+
+La arquitectura sigue las convenciones del desarrollo en [monorepo de NX](https://nx.dev/concepts/decisions/why-monorepos).
+
+Dentro de esta arquitectura se han creado dos aplicaciones principales.
+
+- **API** - El código de este módulo se encuentra en *apps/bicycles-api*. Se encarga de gestionar las peticiones al backend.
+- **Aplicación web** - El código de este módulo se encuentra en *apps/bicycles-we*. Proporciona una interfaz al usuario para que pueda interactuar con la aplicación.
+
+Siguiendo estas convenciones, el código de la aplicación web se encuentra en la carpeta *libs/bicycles-web*, permitiendo en caso de necesidad compartir estos componentes entre distintas aplicaciones.
+
+Dentro de esta carpeta se pueden encontrar los siguientes directorios:
+
+- **feature-checkout** - Módulo que atiende el flujo de un pedido.
+- **feature-configurator** - Módulo que atiende el flujo de configuración de un producto.
+- **feature-store** - Módulo que atiende la página principal y el resto de secciones de haberlas.
+
+Cada uno de estos directorios atiende un flujo de ejecución concreta y sus distintos casos de uso, tanto el caso de éxito como el caso de error.
+
+Estos módulos siguen el siguiente flujo de vida:
+
+![Flujo de vida NgRx](./doc/img/ngrx.png)
+
+Con lo que será habitual dentro de estos directorios ver la estructura:
+
+- **{nombre-de-feature}.module** - Definición del módulo.
+- **{nombre-de-feature}-routing.module** - Definición de las rutas del módulo.
+- **actions** - Directorio en el que se encuentran las acciones despachadas por los contenedores.
+- **components** - Componentes Angular.
+- **containers** - Contenedores Angular. Hacen uso de los componentes Angular para componer cada una de las vistas y se encargan de interactuar con el Store a través de las acciones.
+- **effects** - Interactuan con los servicios en función de las acciones despachadas y responden por medio del lanzamiento de nuevas acciones.
+- **reducers** - Modifican el Store en función de las acciones despachadas.
+- **selectors** - Obtienen datos del Store realizando las trandformaciones oportunas de ser necesario.
+- **services** - Servicios que interactuan con los elementos externos de la aplicación web, en este caso la API.
+
+Además de todo ésto, la carpeta *libs/ui.layout* proporciona un layout común a todos los módulos.
+
+## API
+
+### Postman
+
+Se adjunta un [proyecto postman](./doc/postman.json) con la descripción de cada petición.
+
+### Descripcicón
+
+- **GET http://localhost:8888/api/store/products** - Obtiene todos los productos configurables, los cuales se encuentran almacenados en la tabla *product*. Estos productos generarán un enlace en la pantalla inicial hacia el configurador correspondiente:
+
+![Pantalla principal](./doc/img/home.png)
+
+- **GET http://localhost:8888/api/configurator/options?product=bicycle** - Obtiene las opciones de configuración de un producto en concreto a partir de su slug recibido mediante query param. Estas opciones se mostrarán en la pantalla del configurador:
+
+![Pantalla principal](./doc/img/configurator.png)
+
+- **POST http://localhost:8888/api/order/checkout** - Crea un nuevo pedido en base a las opciones seleccionadas por el usuario. Realiza de forma interna todas las operaciones y validaciones que se hacen en la aplicación web (comprobación de stock, incompatibilidad de elementos seleccionados, cálculo de precios...) de forma independiente haciendo uso del modelo común de entidades.
+
+## Aplicación web
+
+La aplicación web se ha desarrollado utilizando Angular + NgRx para poder aplicar los fundamentos Redux.
+
+La maquetación, realizada mediante SCSS, responde adecuadamente a todo tipo de tamaños de pantalla:
+
+Tanto a tamaños grandes:
+
+![Maqueta en tamaños grandes de pantalla](./doc/img/large-screen.png)
+
+Como a tamaños pequeños:
+
+![Maqueta en tamaños pequeños de pantalla](./doc/img/small-screen.png)
+
+## Prueba técnica - Enunciado
 
 You're tasked with building a website that allows Marcus, a bicycle shop owner, to sell his bicycles.
 
@@ -51,17 +213,3 @@ This code exercise consists of defining a software architecture that could satis
 We expect you to provide the main core model of the solution: a set of classes/functions/modules in the language of your choice that can describe the main relationships between entities and any supporting materials you find useful (database schemas, diagrams, etc). Please make it as lightweight as possible: no need to use web frameworks or provide the finished solution, the goal is to see how you model and code the domain logic.
 
 For any other specification of the system that's not directly stated in the exercise, feel free to interpret it as you see best.
-
-## Run tasks
-
-To run the web server for your api, use:
-
-```sh
-npx nx serve bicycles-api
-```
-
-To run the web server for your web, use:
-
-```sh
-npx nx build bicycles-web
-```
