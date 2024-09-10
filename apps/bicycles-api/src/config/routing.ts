@@ -11,6 +11,7 @@ import { StoreProductsService } from "../api/store/store-products.service";
 import { CheckoutController } from "../api/controllers/checkout.controller";
 import { CheckoutService } from "../api/checkout/checkout.service";
 import { OrderDatabaseRepository } from "../api/checkout/repository/order-database.repository";
+import { CheckoutValidator } from "../api/checkout/checkout.validator";
 
 export default function configureRouter(app: Express) {
   const productsProvider = new StoreProductsProvider(
@@ -45,6 +46,7 @@ export default function configureRouter(app: Express) {
 
   const checkoutController = new CheckoutController(
     new CheckoutService(
+      new CheckoutValidator(),
       new OrderDatabaseRepository(
         new DatabaseConnector()
       )

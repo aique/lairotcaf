@@ -15,8 +15,6 @@ export class ConfiguratorDatabaseRepository implements ConfiguratorRepository {
             WHERE product.slug = "${product}"
         `)
 
-        console.log('compo', components)
-
         for (let component of components) {
             component.options = await this.getComponentOptions(component)
         }
