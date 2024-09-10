@@ -73,12 +73,20 @@ export class ConfiguratorSelection {
     this.selectedOptions = new Map()
   }
 
+  get(key: string): ConfiguratorComponentOption | undefined {
+    return this.selectedOptions.get(key)
+  }
+
   set(key: string, selectedOption: ConfiguratorComponentOption): void {
     this.selectedOptions.set(key, selectedOption)
   }
 
   delete(key: string): void {
     this.selectedOptions.delete(key)
+  }
+
+  keys(): IterableIterator<string> {
+    return this.selectedOptions.keys()
   }
 
   getSelectedOptionIds(): number[] {
@@ -131,7 +139,7 @@ export class ConfiguratorSelection {
     return price
   }
 
-  private getOptionPrice(option: ConfiguratorComponentOption): number {
+  getOptionPrice(option: ConfiguratorComponentOption): number {
     if (option.price) {
         return option.price
     }

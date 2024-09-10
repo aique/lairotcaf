@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { StoreProductsService } from "../store/store-products.service";
+import { StoreProductsProviderService } from "../store/services/store-products-provider.service";
 
 export class StoreController {
-    constructor(private storeProducts: StoreProductsService) {}
+    constructor(private storeProducts: StoreProductsProviderService) {}
 
     async actionGetStoreProducts(req: Request, res: Response) {
         const products = await this.storeProducts.getProducts()

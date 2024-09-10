@@ -1,12 +1,18 @@
 import { Request, Response } from "express";
-import { CheckoutService } from "../checkout/checkout.service"
+import { OrderCreatorService } from "../checkout/services/order-creator.service"
 
 export class CheckoutController {
-    constructor(private checkout: CheckoutService) {}
+    constructor(private checkout: OrderCreatorService) {}
 
     async actionStoreOrder(req: Request, res: Response): Promise<Response> {
-        return await this.checkout.storeOrder(
-            req.body, res
-        )
+        const error = await this.checkout.createOrder(req.body)
+
+        if (error) {
+            return res
+                .status(400)
+                .send({ errors: [error] })
+        }
+
+        return res.status(204).send()
     }
 }

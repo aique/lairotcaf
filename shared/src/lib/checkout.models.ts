@@ -1,3 +1,8 @@
+export interface CheckoutComponent {
+  id: number,
+  name: string
+}
+
 export interface CheckoutOrderProductComponent {
   id: number,
   name: string

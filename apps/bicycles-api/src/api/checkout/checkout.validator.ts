@@ -1,3 +1,5 @@
+import { CheckoutOrderBody } from "@factorial/models";
+
 const Joi = require('@hapi/joi');
 
 const schema = Joi.object({
@@ -17,7 +19,7 @@ const schema = Joi.object({
 });
 
 export class CheckoutValidator {
-    validate(body: any): string {       
+    validate(body: CheckoutOrderBody): string {       
         const { error } = schema.validate(body)
 
         if (error) {

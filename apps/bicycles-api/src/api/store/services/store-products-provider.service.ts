@@ -1,7 +1,7 @@
 import { StoreProducts } from "@factorial/models";
-import { StoreProductsProvider } from "./providers/store-products.provider";
+import { StoreProductsProvider } from "../providers/store-products.provider";
 
-export class StoreProductsService {
+export class StoreProductsProviderService {
     constructor(private provider: StoreProductsProvider) {}
 
     async getProducts(): Promise<StoreProducts> {
