@@ -1,4 +1,4 @@
-import { CheckoutOrderBodyComponent, ConfiguratorComponentCollection, ConfiguratorOptions, ConfiguratorSelection } from "@factorial/models"
+import { CheckoutOrderBodyComponent, ConfiguratorComponentCollection, ConfiguratorComponentOption, ConfiguratorOptions, ConfiguratorSelection } from "@factorial/models"
 import { ConfiguratorOptionsProviderService } from "../../configurator/services/configurator-options-provider.service"
 import { OrderDatabaseRepository } from "../repository/order-database.repository"
 
@@ -32,8 +32,8 @@ export class SelectionComposerService {
 
             const selectedOption = componentCollection.getOptionFromId(orderComponent.option)
 
-            if (!selectedOption) {
-                console.log('[CheckoutService] - Option not found')
+            if (!selectedOption || this.emptyStock(selectedOption)) {
+                console.log('[CheckoutService] - Option not found or stock is empty')
                 throw new Error('Option not found')
             }
 
@@ -72,5 +72,9 @@ export class SelectionComposerService {
         }
 
         return false
+    }
+
+    private emptyStock(option: ConfiguratorComponentOption): boolean {
+        return option.stock !== null && option.stock <= 0
     }
 }

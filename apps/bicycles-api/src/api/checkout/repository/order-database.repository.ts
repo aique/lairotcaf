@@ -44,6 +44,14 @@ export class OrderDatabaseRepository {
                     ${selection.getOptionPrice(option)}
                 )
             `)
+
+            await db.exec(`
+                UPDATE "component_option"
+                SET stock = stock - 1
+                WHERE id = ${option.id}
+                AND stock IS NOT NULL
+                AND stock > 0
+            `)
         }
 
         return true
