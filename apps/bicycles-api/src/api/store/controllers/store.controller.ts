@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { StoreProductsProviderService } from "../store/services/store-products-provider.service";
+import { StoreProductsProviderService } from "../services/store-products-provider.service";
 
 export class StoreController {
     constructor(private storeProducts: StoreProductsProviderService) {}

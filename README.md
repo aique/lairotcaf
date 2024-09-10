@@ -59,7 +59,7 @@ Será una de las posibles opciones que puede configurarse para un componente.
 
 - **component_id** - Identificador del componente asociado a la opción.
 
--**price** - Precio de la opción al margen de posibles combinaciones con otras.
+- **price** - Precio de la opción al margen de posibles combinaciones con otras.
 
 - **stock** - Número de unidades disponibles. En caso de ser NULL se considerará que el stock es ilimitado.
 

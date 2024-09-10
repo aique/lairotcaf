@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ConfiguratorOptionsProviderService } from "../configurator/services/configurator-options-provider.service";
+import { ConfiguratorOptionsProviderService } from "../services/configurator-options-provider.service";
 
 export class ConfiguratorController {
     constructor(private configuratorOptions: ConfiguratorOptionsProviderService) {}

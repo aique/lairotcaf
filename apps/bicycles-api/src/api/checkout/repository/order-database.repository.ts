@@ -1,5 +1,5 @@
 import { CheckoutComponent, CheckoutOrderBody, ConfiguratorSelection } from "@factorial/models";
-import { DatabaseConnector } from "../../storage/database";
+import { DatabaseConnector } from "../../../storage/database";
 import { Database } from "sqlite";
 
 export class OrderDatabaseRepository {

@@ -54,6 +54,16 @@ export const selectOrderPrice = createSelector(
     }
 );
 
+export const selectLoading = createSelector(
+    selectCheckoutState,
+    (state) => state.loading
+);
+
+export const selectSuccess = createSelector(
+    selectCheckoutState,
+    (state) => state.success
+);
+
 export const selectError = createSelector(
     selectCheckoutState,
     (state) => state.error
@@ -63,5 +73,7 @@ export const checkoutSelector = {
     selectOrder,
     selectOrderResume,
     selectOrderPrice,
+    selectLoading,
+    selectSuccess,
     selectError
 }

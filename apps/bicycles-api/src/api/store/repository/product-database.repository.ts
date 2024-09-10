@@ -1,5 +1,5 @@
 import { StoreProduct, StoreProducts } from "@factorial/models";
-import { DatabaseConnector } from "../../storage/database";
+import { DatabaseConnector } from "../../../storage/database";
 import { ProductRepository } from "./product.repository";
 
 export class ProductDatabaseRepository implements ProductRepository {

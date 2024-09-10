@@ -1,5 +1,5 @@
 import { ConfiguratorComponent, ConfiguratorComponentOption, ConfiguratorOptionPriceCombination, ConfiguratorOptions } from "@factorial/models";
-import { DatabaseConnector } from "../../storage/database";
+import { DatabaseConnector } from "../../../storage/database";
 import { ConfiguratorRepository } from "./configurator.repository";
 
 export class ConfiguratorDatabaseRepository implements ConfiguratorRepository {

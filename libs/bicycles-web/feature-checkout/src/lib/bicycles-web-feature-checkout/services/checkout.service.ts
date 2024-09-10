@@ -37,7 +37,12 @@ export class CheckoutService {
         }
         
         const body = {
-            userData: order.userData,
+            userData: {
+                name: order.userData.name,
+                surname: order.userData.surname,
+                email: order.userData.email,
+                phone: order.userData.phone
+            },
             order: {
                 product: order.productOrder.product,
                 components

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { OrderCreatorService } from "../checkout/services/order-creator.service"
+import { OrderCreatorService } from "../services/order-creator.service"
 
 export class CheckoutController {
     constructor(private checkout: OrderCreatorService) {}

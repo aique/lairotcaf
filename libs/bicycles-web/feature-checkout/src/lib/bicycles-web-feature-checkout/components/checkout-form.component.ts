@@ -63,6 +63,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
             <p class="error" *ngIf="requestError">
               Error creating your order, please, contact us if the error persists
             </p>
+            <p class="success" *ngIf="requestSuccess">
+              Order submited successfully!
+            </p>
             <feature-configurator-resume
               [components]="resume"
               *ngIf="resume.length > 0"
@@ -79,7 +82,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class FeatureCheckoutFormComponent {
   @Input() price: number | null = 0
   @Input() resume: ComponentOptionsResumeItem[] = []
-  @Input() requestError: boolean | null = false
+  @Input() requestError: boolean = false
+  @Input() requestLoading: boolean = false
+  @Input() requestSuccess: boolean = false
 
   @Output() checkout = new EventEmitter<CheckoutUserData>()
 
@@ -105,7 +110,7 @@ export class FeatureCheckoutFormComponent {
   }
 
   disableSubmit(): boolean {
-    return this.checkoutForm.invalid
+    return this.checkoutForm.invalid || this.requestLoading || this.requestSuccess
   }
 
   doSubmit(): void {
