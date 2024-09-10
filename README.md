@@ -4,7 +4,10 @@ Descripción de la prueba técnica, basada en el enunciado del ejercicio de prue
 
 ## Requisitos
 
-Para la ejecución en local de esta aplicación será necesaria la versión **v20.11.1** de Node.
+Para la ejecución en local de esta aplicación será necesario:
+
+- **npm**
+- **Node v20.11.1**
 
 El proceso de instalación de dependencias con *npm* se podrá realizar ejecutando los siguientes comandos:
 
