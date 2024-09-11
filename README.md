@@ -16,7 +16,9 @@ nvm use
 npm ci
 ```
 
-## Comandos de ejecución
+## Uso y comandos
+
+Para probar la aplicación en local será necesario primero levantar la api y posteriormente la aplicación web.
 
 Lanzar la ejecución de la api:
 
@@ -131,7 +133,9 @@ Con lo que será habitual dentro de estos directorios ver la estructura:
 - **selectors** - Obtienen datos del Store realizando las trandformaciones oportunas de ser necesario.
 - **services** - Servicios que interactuan con los elementos externos de la aplicación web, en este caso la API.
 
-Además de todo ésto, la carpeta *libs/ui.layout* proporciona un layout común a todos los módulos.
+Finalmente, la carpeta *libs/ui.layout* proporciona un layout común a todos los módulos.
+
+Además de todo esto, en la carpeta *shared* se encuentra el modelo de entidades común tanto a la aplicación web como a la API, donde se realizan entre otras tareas el cálculo de precios, la verificación de que no se han seleccionado opciones incompatibles... etc.
 
 ## API
 
@@ -165,7 +169,31 @@ Como a tamaños pequeños:
 
 ![Maqueta en tamaños pequeños de pantalla](./doc/img/small-screen.png)
 
-## Prueba técnica - Enunciado
+## Casos de uso
+
+### Acceso a la tienda
+
+La página de inicio mostrará además de la información estática conveniente, un acceso a los configuradores de los distintos productos. Este acceso se generará realizando una llamada a la API y obteniendo los distintos productos de la base de datos.
+
+Además de bicicletas, se ha creado una entidad patinete de ruedas para comprobar que el sistema funciona de manera transparente si se quiere añadir un nuevo producto configurable al catálogo. Bastará con añadir el producto, sus componentes y las opciones correspondientes de cada componente para que la aplicación web lo muestre.
+
+![Página de acceso a la tienda](./doc/img/home.png)
+
+### Configuración de un producto
+
+Al entrar en el configurador de un producto se realizará una petición a la API para obtener los componentes y sus diferentes opciones junto con sus detalles adicionales, como son el stock, las opciones incompatibles o el cálculo de precios en funcion de distintas combinaciones.
+
+En base a esta información se realizará el cálculo del precio final, se mostrarán aquellos componentes fuera de stock y se validará que la selección es correcta y no contiene elementos incompatibles.
+
+Este es un ejemplo de una selección incompatible.
+
+![Selección incompatible](./doc/img/incompatible-selection.png)
+
+Este es un ejemplo de cálculo de precio en función de una selección (el acabado mate tiene un precio de 75 € si se combina con un cuadro Step-through y unas ruedas Fat bike wheels).
+
+![Precio deducido mediante combinación](./doc/img/combinated-price.png)
+
+## Enunciado
 
 You're tasked with building a website that allows Marcus, a bicycle shop owner, to sell his bicycles.
 
@@ -216,3 +244,13 @@ This code exercise consists of defining a software architecture that could satis
 We expect you to provide the main core model of the solution: a set of classes/functions/modules in the language of your choice that can describe the main relationships between entities and any supporting materials you find useful (database schemas, diagrams, etc). Please make it as lightweight as possible: no need to use web frameworks or provide the finished solution, the goal is to see how you model and code the domain logic.
 
 For any other specification of the system that's not directly stated in the exercise, feel free to interpret it as you see best.
+
+## Resolución de cuestiones
+
+- The description of the main user actions in this e-commerce website. Explain how they would work in detail.
+- *The product page*: This would be a read operation, performed when you need to display the page of a product (a bicycle) for the customer to purchase. How would you present this UI? How would you calculate which options are available or not? How would you calculate the price depending on the customer's selections?
+- The "add to cart" action: Following the previous point, the product page should have a button to "add to cart" after the customer has made some specific selection. What happens when the customer clicks this button? What is persisted in the database?
+- The description of the main workflows from the administration part of the website, where Marcus configures the store.
+- The creation of a new product: What information is required to create a new product? What changes in the database after performing this action?
+- The addition of a new part choice: How can Marcus introduce a new rim color, for example? Can you describe the UI? What changes in the database after this action?
+- Setting up prices: How can Marcus change the price of a specific part (like the diamond frame type) or specify that some combinations of choices have particular prices? How does the UI look? How does the database change to store this information?

@@ -140,12 +140,12 @@ export class ConfiguratorSelection {
   }
 
   getOptionPrice(option: ConfiguratorComponentOption): number {
-    if (option.price) {
-        return option.price
-    }
-
     if (option.priceCombinations.length > 0) {
       return this.getPriceFromProductCombinations(option.priceCombinations)
+    }
+
+    if (option.price) {
+      return option.price
     }
 
     return 0

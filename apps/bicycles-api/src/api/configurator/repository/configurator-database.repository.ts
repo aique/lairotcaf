@@ -60,7 +60,6 @@ export class ConfiguratorDatabaseRepository implements ConfiguratorRepository {
             SELECT combinations, price
             FROM option_combination
             WHERE option_id = ${optionId}
-            LIMIT 1
         `)
 
         return priceCombinations.map((priceCombination) => {
