@@ -183,15 +183,293 @@ Además de bicicletas, se ha creado una entidad patinete de ruedas para comproba
 
 Al entrar en el configurador de un producto se realizará una petición a la API para obtener los componentes y sus diferentes opciones junto con sus detalles adicionales, como son el stock, las opciones incompatibles o el cálculo de precios en funcion de distintas combinaciones.
 
+La respuesta obtenida por la API tendrá el siguiente formato:
+
+```
+{
+    "components": [
+        {
+            "id": 1,
+            "name": "Frame type",
+            "options": [
+                {
+                    "id": 1,
+                    "component": {
+                        "id": 1,
+                        "name": "Frame type"
+                    },
+                    "name": "Full-suspension",
+                    "price": 130,
+                    "stock": 5,
+                    "incompatibleOptions": null,
+                    "priceCombinations": []
+                },
+                {
+                    "id": 2,
+                    "component": {
+                        "id": 1,
+                        "name": "Frame type"
+                    },
+                    "name": "Diamond",
+                    "price": 150,
+                    "stock": 10,
+                    "incompatibleOptions": [
+                        4
+                    ],
+                    "priceCombinations": []
+                },
+                {
+                    "id": 5,
+                    "component": {
+                        "id": 1,
+                        "name": "Frame type"
+                    },
+                    "name": "Step-through",
+                    "price": 170,
+                    "stock": 14,
+                    "incompatibleOptions": [
+                        4
+                    ],
+                    "priceCombinations": []
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Wheels",
+            "options": [
+                {
+                    "id": 3,
+                    "component": {
+                        "id": 2,
+                        "name": "Wheels"
+                    },
+                    "name": "Road wheels",
+                    "price": 80,
+                    "stock": 0,
+                    "incompatibleOptions": null,
+                    "priceCombinations": []
+                },
+                {
+                    "id": 4,
+                    "component": {
+                        "id": 2,
+                        "name": "Wheels"
+                    },
+                    "name": "Mountain wheels",
+                    "price": 95,
+                    "stock": null,
+                    "incompatibleOptions": [
+                        2,
+                        5
+                    ],
+                    "priceCombinations": []
+                },
+                {
+                    "id": 6,
+                    "component": {
+                        "id": 2,
+                        "name": "Wheels"
+                    },
+                    "name": "Fat bike wheels",
+                    "price": 110,
+                    "stock": 4,
+                    "incompatibleOptions": [
+                        9
+                    ],
+                    "priceCombinations": []
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Frame finish",
+            "options": [
+                {
+                    "id": 7,
+                    "component": {
+                        "id": 3,
+                        "name": "Frame finish"
+                    },
+                    "name": "Matte",
+                    "price": 40,
+                    "stock": null,
+                    "incompatibleOptions": null,
+                    "priceCombinations": [
+                        {
+                            "options": [
+                                1
+                            ],
+                            "price": 50
+                        },
+                        {
+                            "options": [
+                                2
+                            ],
+                            "price": 35
+                        },
+                        {
+                            "options": [
+                                5,
+                                6
+                            ],
+                            "price": 75
+                        }
+                    ]
+                },
+                {
+                    "id": 8,
+                    "component": {
+                        "id": 3,
+                        "name": "Frame finish"
+                    },
+                    "name": "Shiny",
+                    "price": 75,
+                    "stock": null,
+                    "incompatibleOptions": null,
+                    "priceCombinations": []
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Rim color",
+            "options": [
+                {
+                    "id": 9,
+                    "component": {
+                        "id": 4,
+                        "name": "Rim color"
+                    },
+                    "name": "Red",
+                    "price": 25,
+                    "stock": null,
+                    "incompatibleOptions": [
+                        6
+                    ],
+                    "priceCombinations": []
+                },
+                {
+                    "id": 10,
+                    "component": {
+                        "id": 4,
+                        "name": "Rim color"
+                    },
+                    "name": "Black",
+                    "price": 20,
+                    "stock": null,
+                    "incompatibleOptions": null,
+                    "priceCombinations": []
+                },
+                {
+                    "id": 11,
+                    "component": {
+                        "id": 4,
+                        "name": "Rim color"
+                    },
+                    "name": "Blue",
+                    "price": 35,
+                    "stock": null,
+                    "incompatibleOptions": null,
+                    "priceCombinations": []
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Chain",
+            "options": [
+                {
+                    "id": 12,
+                    "component": {
+                        "id": 5,
+                        "name": "Chain"
+                    },
+                    "name": "Single-speed chain",
+                    "price": 75,
+                    "stock": 5,
+                    "incompatibleOptions": null,
+                    "priceCombinations": []
+                },
+                {
+                    "id": 13,
+                    "component": {
+                        "id": 5,
+                        "name": "Chain"
+                    },
+                    "name": "8-speen chain",
+                    "price": 100,
+                    "stock": 2,
+                    "incompatibleOptions": null,
+                    "priceCombinations": []
+                }
+            ]
+        }
+    ]
+}
+```
+
 En base a esta información se realizará el cálculo del precio final, se mostrarán aquellos componentes fuera de stock y se validará que la selección es correcta y no contiene elementos incompatibles.
 
-Este es un ejemplo de una selección incompatible.
+Este es un ejemplo de una selección incompatible, donde las ruedas Fat bike wheels, cuyo id 6, no son compatibles con el aro de color rojo, cuyo id es 9.
+
+![Definición de opciones de un componente en base de datos](./doc/img/option-rows.png)
 
 ![Selección incompatible](./doc/img/incompatible-selection.png)
 
-Este es un ejemplo de cálculo de precio en función de una selección (el acabado mate tiene un precio de 75 € si se combina con un cuadro Step-through y unas ruedas Fat bike wheels).
+Este es un ejemplo de cálculo de precio en función de una selección (el acabado mate, cuyo id es 7, tiene un precio de 75 € si se combina con un cuadro Step-through, cuyo id es 5, y unas ruedas Fat bike wheels, cuyo id es 6). Si la opción seleccionada satisface alguna de las combinaciones definidas, se aplicará ese precio. En caso contrario, se aplicará el precio individual de la propia opción.
+
+![Definición de precio combinado en base de datos](./doc/img/combinated-price-rows.png)
 
 ![Precio deducido mediante combinación](./doc/img/combinated-price.png)
+
+### Compra de un producto
+
+Una vez se seleccione una configuración satisfactoria se activará el botón de compra, lo que llevará a una sección con un resumen y un formulario para que el usuario introduzca sus datos personales.
+
+Una vez rellenado este formulario correctamente se habilitará el botón para realizar la compra del producto configurado y se realizará una petición a la API con el siguiente cuerpo:
+
+```
+{
+    "userData": {
+        "name": "Juan",
+        "surname": "Prieto",
+        "email": "juan@mail.com",
+        "phone": "666-123123"
+    },
+    "order": {
+        "product": "bicycle",
+        "components": [
+            {
+                "id": 1,
+                "option": 5
+            },
+            {
+                "id": 2,
+                "option": 6
+            },
+            {
+                "id": 3,
+                "option": 7
+            },
+            {
+                "id": 4,
+                "option": 10
+            },
+            {
+                "id": 5,
+                "option": 12
+            }
+        ]
+    }
+}
+```
+
+En la API se procederá a realizar las mismas verificaciones que se han realizado en la aplicación web y el sucesivo cálculo de precios para almacenar el pedido en base de datos, evitando cualquier problema con peticiones malintencionadas.
+
+![Pedido almacenado en base de datos](./doc/img/product-row.png)
+
+![Configuración del pedido almacenada en base de datos](./doc/img/product-components-row.png)
 
 ## Enunciado
 
@@ -247,10 +525,24 @@ For any other specification of the system that's not directly stated in the exer
 
 ## Resolución de cuestiones
 
-- The description of the main user actions in this e-commerce website. Explain how they would work in detail.
-- *The product page*: This would be a read operation, performed when you need to display the page of a product (a bicycle) for the customer to purchase. How would you present this UI? How would you calculate which options are available or not? How would you calculate the price depending on the customer's selections?
-- The "add to cart" action: Following the previous point, the product page should have a button to "add to cart" after the customer has made some specific selection. What happens when the customer clicks this button? What is persisted in the database?
 - The description of the main workflows from the administration part of the website, where Marcus configures the store.
+
+    El administrador será un crud de las entidades descritas en base de datos.
+
 - The creation of a new product: What information is required to create a new product? What changes in the database after performing this action?
+
+    Para la creación de un nuevo producto bastará con asignar un nombre y un slug al producto.
+
+    Tal y como está diseñado el sistema, debería de tener al menos un componente configurable, ya que el desarrollo se ha centrado en el soporte de productos configurables.
+
 - The addition of a new part choice: How can Marcus introduce a new rim color, for example? Can you describe the UI? What changes in the database after this action?
+
+    Para añadir un nuevo color bastaría con añadir una nueva opción al componente. Esto se traduce en que Marcus podría seleccionar desde el administrador el componente de un producto, y mediante un enlace "añadir opción" se le mostraría un formulario de alta, que se compondría de nombre, precio, stock, un selector con las distintas opciones incompatibles con ella.
+    
+    Para las combinaciones de precios dispondrá de un conjunto de filas donde podrá seleccionar en cada una de ellas entre las distintas opciones del componente e introducir un precio, para de esta manera dar de alta los registros de la tabla *option_combination*.
+
 - Setting up prices: How can Marcus change the price of a specific part (like the diamond frame type) or specify that some combinations of choices have particular prices? How does the UI look? How does the database change to store this information?
+
+    Para modificar el precio de una opción simplemente editaría la opción y modificaría el campo *precio* correspondiente.
+
+    En cuanto a la modificación de combinaciones de precio, esta duda se ha resuelto en la pregunta anterior.
